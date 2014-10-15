@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="login" namespace="/login" extends="esunny-default">
+
+		<action name="login_info" method="showLogin" class="loginAction">
+			<result name="success" type="velocity">/screen/login/login.vm</result>
+		</action>
+
+		<action name="do_login" method="doLogin" class="loginAction">
+			<result name="success" type="redirect">/report/query_real_time_dw_visit_source_info.htm
+			</result>
+			<result name="error" type="velocity">/screen/login/login.vm</result>
+		</action>
+		
+		<action name="do_logout" method="doLogout" class="loginAction">
+			<result name="success" type="velocity">/screen/login/login.vm</result>
+		</action>
+	</package>
+</struts>

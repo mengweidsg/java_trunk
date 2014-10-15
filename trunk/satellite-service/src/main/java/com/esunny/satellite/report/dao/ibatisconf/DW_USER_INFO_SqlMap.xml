@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DW_USER_INFO" >
+  <typeAlias alias="DwUserInfo" type="com.esunny.satellite.report.entity.DwUserInfo" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="AND" property="id"> id = #id:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="userId"> user_id = #userId:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="userName"> user_name = #userName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="userEmail"> user_email = #userEmail:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="userPassword"> user_password = #userPassword:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="userIdentity"> user_identity = #userIdentity:DECIMAL# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="departmentName"> department_name = #departmentName:VARCHAR# </isNotEmpty>
+    </dynamic>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, user_id as userId, user_name as userName, user_email as userEmail, user_password as userPassword, 
+    user_identity as userIdentity, department_name as departmentName, report_authority_str as reportAuthorityStr, gmt_create as gmtCreate
+  </sql>
+  
+  <select id="queryUserListByPaging" resultClass="DwUserInfo" parameterClass="DwUserInfo" >
+    select *
+    from (select t.*, rownum rn
+          from (select
+                <include refid="DW_USER_INFO.Base_Column_List" />
+                from dw_user_info
+                <isParameterPresent >
+                  <include refid="DW_USER_INFO.Base_Where" />
+                </isParameterPresent>
+                <isNotNull property="orderByClause" >
+                  order by $orderByClause$
+                </isNotNull>
+                <![CDATA[ 
+               ) t
+          where rownum <= #endRow#)
+    where rn > #startRow#
+        ]]>
+  </select>
+  
+  <select id="countUserListByPaging" parameterClass="DwUserInfo" resultClass="java.lang.Integer" >
+    select count(*) from dw_user_info
+    <isParameterPresent >
+      <include refid="DW_USER_INFO.Base_Where" />
+    </isParameterPresent>
+  </select>
+  
+  <delete id="deleteDwUserInfoById" parameterClass="Long" >
+    delete from dw_user_info where id = #value# 
+  </delete>
+  
+  <insert id="insertDwUserInfo" parameterClass="DwUserInfo" >
+    <selectKey resultClass="java.lang.Long" keyProperty="id">
+        SELECT SEQ_DW_USER_INFO.NEXTVAL AS id FROM DUAL
+    </selectKey>
+    insert into dw_user_info(id, user_id, user_name, user_email, user_password, user_identity, department_name, report_authority_str, gmt_create)
+    values(#id#, #userId#, #userName#, #userEmail#, #userPassword#, #userIdentity#, #departmentName#, #reportAuthorityStr#, sysdate)
+  </insert>
+
+  <update id="updateDwUserInfoById" parameterClass="DwUserInfo" >
+    update dw_user_info t
+    <dynamic prepend="set" >
+      <isNotNull prepend="," property="userId" >
+        user_id = #userId:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="userName" >
+        user_name = #userName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="userEmail" >
+        user_email = #userEmail:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="userPassword" >
+        user_password = #userPassword:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="userIdentity" >
+        user_identity = #userIdentity:DECIMAL#
+      </isNotNull>
+      <isNotNull prepend="," property="departmentName" >
+        department_name = #departmentName:VARCHAR#
+      </isNotNull>
+      <isNotNull prepend="," property="reportAuthorityStr" >
+        report_authority_str = #reportAuthorityStr:VARCHAR#
+      </isNotNull>
+    </dynamic>
+    WHERE  id = #id:DECIMAL#
+  </update>
+</sqlMap>

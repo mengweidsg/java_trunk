@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="REPORT_SEARCH_CONDITION" >
+  <typeAlias alias="ReportSearchCondition" type="com.esunny.satellite.report.entity.ReportSearchCondition" />
+
+  
+  <sql id="Base_Column_List" >
+    id, table_name as tableName, column_name as columnName, column_display_name as columnDisplayName, 
+    input_type as inputType, enum_table_name as enumTableName, is_complete_match as isCompleteMatch
+  </sql>
+  
+  <select id="queryConditionListByTableName" resultClass="ReportSearchCondition" parameterClass="string" >
+    select
+    <include refid="REPORT_SEARCH_CONDITION.Base_Column_List" />
+    from report_search_condition t
+    where t.table_name = #value#
+  </select>
+
+</sqlMap>

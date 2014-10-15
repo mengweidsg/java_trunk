@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<toolbox>
+	<xhtml>true</xhtml>
+	<tool>
+	    <key>math</key>
+	    <scope>application</scope>
+	    <class>org.apache.velocity.tools.generic.MathTool</class>
+	</tool>
+	<tool>
+	    <key>mydate</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.web.DateUtils</class>
+	</tool>
+	<tool>
+	    <key>myres</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.config.ResourceUtil</class>
+	</tool>
+	<tool>
+	    <key>mynumber</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.web.NumberUtils</class>
+	</tool>
+	
+	<tool>
+	    <key>statusUtil</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.web.StatusUtils</class>
+	</tool>
+	
+	<tool>
+	    <key>myhelper</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.web.VelocityHelper</class>
+	</tool>
+	<tool>
+	    <key>systemUtil</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.lang.SystemUtil</class>
+	</tool>
+	<tool>
+	    <key>stringUtil</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.util.lang.StringUtil</class>
+	</tool>
+	<tool>
+	    <key>viewCacheUtil</key>
+	    <scope>application</scope>
+	    <class>com.esunny.platform.viewcache.util.ViewCacheUtil</class>
+	</tool>	
+</toolbox>

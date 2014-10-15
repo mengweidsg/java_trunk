@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+			http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+			http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd"
+	default-autowire="byName">
+
+
+	<bean id="reportCommonQueryService"
+		class="com.esunny.satellite.report.service.impl.ReportCommonQueryServiceImpl"></bean>
+
+	<bean id="reportService"
+		class="com.esunny.satellite.report.service.impl.ReportServiceImpl"></bean>
+		
+	<bean id="loginService"
+		class="com.esunny.satellite.report.service.impl.LoginServiceImpl"></bean>
+		
+	<bean id="queryInputSqlResultService"
+		class="com.esunny.satellite.report.service.impl.QueryInputSqlResultServiceImpl"></bean>
+		
+		
+	<bean id="reportRealTimeQueryService"
+		class="com.esunny.satellite.report.service.impl.ReportRealTimeQueryServiceImpl"></bean>
+		
+	<bean id="reportMenuService"
+		class="com.esunny.satellite.report.service.impl.ReportMenuServiceImpl"></bean>
+		
+	<bean id="dwUserInfoService"
+		class="com.esunny.satellite.report.service.impl.DwUserInfoServiceImpl"></bean>
+</beans>

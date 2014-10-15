@@ -1,0 +1,25 @@
+
+#macro (printFiledErrorsByKey $fieldErrors $key $type)
+	
+	#if($!type != 1)
+		<ul class="message">
+	#end
+	
+  	#foreach($val in $fieldErrors.get($key))
+		#if($!val != '')
+			<li>$!val</li>
+		#end
+	#end
+		
+	#if($!type != 1)
+		</ul>
+	#end
+#end
+
+#macro (printFiledErrors $fieldErrors)
+	<ul class="message">
+  	#foreach($key in $fieldErrors.keySet())
+		#printFiledErrorsByKey($fieldErrors,$key,1)
+	#end
+	</ul>
+#end

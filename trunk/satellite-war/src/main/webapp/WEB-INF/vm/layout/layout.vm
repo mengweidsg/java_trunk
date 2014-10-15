@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link type="text/css" href="$!myres.getUrl('url.style','/bopsstyle/css/satellite/style.css').queryData('v',$myres.getSystem('style_version'))" rel="stylesheet" />
+    <script type="text/javascript"  src="$!myres.getUrl('url.style','/bopsstyle/script/jquery.min.js').queryData('v',$myres.getSystem('style_version'))"></script>
+    <link type="text/css" rel="stylesheet" href="$!myres.getUrl('url.style','/bopsstyle/script/datepicker/jquery.ui.datepicker.css').queryData('v',$myres.getSystem('style_version'))" />
+    <script type="text/javascript"  src="$!myres.getUrl('url.style','/bopsstyle/script/datepicker/jquery.ui.datepicker.min.js').queryData('v',$myres.getSystem('style_version'))"></script>
+    <title>$!title</title>
+    </head>
+    <body>
+        <div id="head">
+            <div class="h-t clearfix">
+                <div class="ht-l">
+                    <a href="#" class="logo"></a>
+                </div>
+                <div class="ht-r">
+                    <div class="login">您好，$!{dwUserInfo.userId}</div>
+                    <a href="javascript:;;" class="loginout" title="退出">退出</a>
+                    <a href="#" class="seting" title="帐号设置" onclick="changeRootMenu('9' ,'修改密码', '$!myres.getUrl('url.satellite','/account/show_edit_dw_password.htm')')">帐号设置</a>
+                </div>
+            </div>
+            <div class="nav">
+                <ul class="nav-list">
+                    #foreach($menuItem in $!menuRootList)
+                        <li id="rootMeunu"> 
+                            <a #if($!menuRootId == $!menuItem.id )class="on" #end href="javascript:;;" onclick="changeRootMenu('$!menuItem.id' ,'$!menuItem.tableName', '$!myres.getUrl('url.satellite',$!{menuItem.url})')"> <span>$!menuItem.name</span></a>
+                        </li>
+                    #end
+                </ul>
+            </div>
+        </div>
+        
+        <div id="content" class="clearfix">
+            <div id="content-sub">
+                <div class="lsb-m">
+                    <dl class="dl-b">
+                        #foreach($menuItem in $!menuItemList)
+                            <dt class="word-blue l-h24px dlb-dt-n dlb-dt-h"><a href="#">$!menuItem.name</a></dt>
+                                #foreach($!childMenuItem in $!menuItem.children)
+                                    <dd class="l-h24px dlb-dd-n dlb-dd-h">
+                                        <div  class="dlb-div-n dlb-div-h">
+                                            <span class="word-blue l-h24px">
+                                                <a href="javascript:;;" onclick="changeRootMenu('$!menuRootId' ,'$!childMenuItem.tableName', '$!myres.getUrl('url.satellite',$!{childMenuItem.url})')">$!childMenuItem.name</a>
+                                            </span>
+                                        </div>
+                                    </dd>
+                                #end
+                        #end
+                    </dl>
+                </div>
+            </div>
+            $screen_content
+        </div>
+        <div id="foot">©2012 深圳市宇商网科技有限公司版权所有</div>
+    </body>
+</html>
+<script type="text/javascript">
+$(function(){
+    // 登出
+    $(".loginout").click(function(){
+        $("#managerForm").attr("action", "../login/do_logout.htm");
+        $("#managerForm").submit();
+    });
+    
+    $("#ulTabList > li > a").bind({
+        click:function(){
+            $("#hidTabCond").val($(this).attr("no"));
+            submitForm(1);
+        }
+    });
+    
+    
+});
+function changeRootMenu(menuId, tableName, url){
+    if(tableName == undefined || tableName == ""){
+        alert("暂无报表！");
+        return false;
+    }
+    window.location.href = url;
+}
+
+//列表
+$(function(){
+$(".dlb-dt-n").bind("click",function(){
+                            var _classstr = $(this).attr("class")
+                            if(_classstr.indexOf("dlb-dt-h")== -1){
+                                    $(this).addClass("dlb-dt-h")
+                                    $(this).nextUntil("dt").show();
+                                }
+                            else{
+                                $(this).removeClass("dlb-dt-h")    
+                                $(this).nextUntil("dt").hide();
+                                }
+                            return false;
+                                    })
+
+$(".sort-item-list li").click(function(){
+    $(this).addClass("cur").siblings().removeClass("cur")
+  });
+   });
+   
+</script>

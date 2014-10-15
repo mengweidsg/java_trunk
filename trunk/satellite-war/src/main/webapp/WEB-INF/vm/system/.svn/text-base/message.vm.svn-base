@@ -1,0 +1,8 @@
+#set($layout = "order/layout.vm") ##选择布局页面
+<div class="main clearfix">
+  #parse("layout/order/left.vm")
+  <div class="r-side">
+   	<div class="sys-msg">$!message</div>
+  </div>
+</div>
+#parse("layout/order/bottom.vm")

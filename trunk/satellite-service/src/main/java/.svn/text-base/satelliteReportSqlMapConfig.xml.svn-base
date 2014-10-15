@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+<settings cacheModelsEnabled="true" enhancementEnabled="false" lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000" maxTransactions="3000" useStatementNamespaces="true"/>
+
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/REPORT_INFO_PLUS_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/REPORT_SEARCH_CONDITION_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/REPORT_ENUM_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/REPORT_MENU_SqlMap.xml"/>
+	
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/DW_USER_INFO_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/ALL_TAB_COLUMNS_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/REPORT_DISPLAY_COLUMN_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/report/dao/ibatisconf/DW_OPERATIONAL_TOPICS_URL_SqlMap.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="shortcuticon" href="http://style.esunnyimg.com/favicon.ico" />
+	<link type="text/css" rel="stylesheet" href="http://style.esunnyimg.com/tradingstyle/css/trading-min.css?v=2011513" />
+	<script type="text/javascript" src="http://style.esunnyimg.com/script/jquery.min.js?t=201155"></script>
+</head>
+<body>
+
+<!--公共顶部-->
+<!--头部-->
+	<div class="header clearfix">
+		<div class="topnav">
+			<span class="l_infotop L">中国最大供应链服务商——<a href="http://www.eascs.com" target="_blank">怡亚通</a>旗下网站(<a href="http://finance.sina.com.cn/realstock/company/sz002183/nc.shtml" target="_blank">股票代码：002183</a>) 
+							</span>
+			<ul class="R r_nav">
+			  <li class="r_nav_li"><a href="http://cn.esunny.com/trade/index.html" target="_blank" class="r_nav_link r_nav_link_cur" style="padding-left: 22px;"><img  alt="商盟通" src="http://style.esunnyimg.com/tradingstyle/image/deal/ico_jyb.png" class="icon-smt">商盟通<s class="s-nor"></s></a>
+
+				  <div class="r_nav_dl">
+					  <a href="http://cn.esunny.com/Trade/OnlineApply.html" target="_blank">在线申请</a><a href="http://cn.esunny.com/trade/index.html" target="_blank">咨询服务专员</a> <a href="http://cn.esunny.com/Trade/Vedio.html" target="_blank">专题视频</a>	<div class="line_b"></div></div>
+			  </li>
+			<li class="r_nav_li"><a href="http://member.esunny.com" class="r_nav_link">我的商务中心<s class="s-nor"></s></a>
+					<div class="r_nav_dl">
+						<a href="http://member.esunny.com/publish/publishcatalog.aspx?type=1" target="_blank">发布供应</a> <a href="http://member.esunny.com/OneKeyMoving/Index.aspx" target="_blank">一键搬家</a> <a href="http://infopub.esunny.com/default.aspx" target="_blank">全网商机发布</a>
+
+			  <div class="line_b"></div></div>
+				</li>
+				<li class="r_nav_li2"><a href="http://cn.esunny.com/help.html" title="帮助中心" target="_blank"  class="r_nav_link">帮助中心</a> </li>
+		  </ul>
+		</div>
+	</div>
+	<div class="comlogo clearfix">
+		<div class="logo">
+
+			<a href="http://cn.esunny.com"><img src="http://style.esunnyimg.com/tradingstyle/image/deal/logo.png" alt="宇商网" /></a>
+		</div>
+        
+        <div class="personal-search">
+		    <div class="psselect" id="psselect"><em>产品</em><span></span></div>
+		    <ul state="off" class="psselect-list" id="psselect-list">
+		        <li value="1">产品</li>
+		        <li value="2">采购</li>
+
+		        <li value="3">公司</li>
+		    </ul>
+		    <input type="hidden" value="1" id="selectValue">
+		    <input type="text" id="pstxt" class="pstxt">
+		    <input type="button" class="psbtn">
+		</div>
+	</div>
+	<!--导航-->
+
+	<div class="navpersonal">
+		<div class="nav_main">
+			<ul>
+				<li id="li_Index"><a href="http://member.esunny.com/default.aspx"><span>首页</span></a></li>	
+				<li id="li_Message"><a href="http://member.esunny.com/Message/MessageInBox.aspx"><span>信息管理</span></a></li>
+				<li id="li_companyMgr"><a href='http://member.esunny.com/News/CompanyNewsList.aspx'><span>商铺管理</span></a></li>
+				<li id="li_Publish" class="on"><a href="http://trading.esunny.com/order/buy_order_list.htm"><span>交易管理</span></a></li>
+				<li id="li_InfoPubCompanyInfo"><span><a href="http://infopub.esunny.com/Company/default.aspx">全网档案</a></span></li>
+				<li id="li_InfoPub"><a href="http://infopub.esunny.com/default.aspx"><span>全网商机</span></a></li>
+			</ul>
+		</div>
+		<div class="nav_child">
+			<p><a href="http://member.esunny.com/Message/MessageInBox.aspx"  class="msg" target="_blank">短信<span id="MyMsgNum" ><font class="hid">(<b>0</b>)</font></span></a><a href="#" class="mine" target="_blank">我的商铺</a><a href="http://member.esunny.com/Info/ChangePassword.aspx" class="num">修改密码</a><a href="javascript:;" class="func">功能导航</a> </p>
+
+		</div>
+		<div class="funclist clearfix" style="display:none">
+                <dl class="clearfix">
+				    <dt>信息管理</dt>
+				    <dd><a href="http://member.esunny.com/Publish/PublishCatalog.aspx?Type=1">发布供应信息</a></dd>
+				    <dd><a href="http://member.esunny.com/OneKeyMoving/Index.aspx">一键搬家</a></dd>
+				    <dd><a href="http://member.esunny.com/Publish/PublishList.aspx">管理供应信息</a></dd>
+
+				    <dd><a href="http://member.esunny.com/Message/MessageInbox.aspx">站内短信</a></dd>
+				    <dd><a href="http://member.esunny.com/Publish/PublishCatalog.aspx?Type=2">发布采购信息</a></dd>
+				    <dd><a href="http://member.esunny.com/Favorite/FavoriteListByCompany.aspx">公司收藏</a></dd>
+				    <dd><a href="http://member.esunny.com/Publish/PurchaseList.aspx">管理采购信息</a></dd>
+				    <dd><a href="http://member.esunny.com/Favorite/FavoriteListByProduct.aspx">产品收藏</a></dd>
+			    </dl>
+
+			    <dl class="clearfix middle">
+				    <dt>商铺管理</dt>
+				    <dd><a href="http://member.esunny.com/Info/CompanyInfoEdit.aspx">公司档案</a></dd>
+				    <dd><a href="http://member.esunny.com/Info/CompanyInfoExtendEdit.aspx">业务档案</a></dd>
+				    <dd><a href="http://member.esunny.com/Info/ChangePassword.aspx">修改密码</a></dd>
+				    <dd><a href="http://member.esunny.com/News/CompanyNewsList.aspx">公司动态</a></dd>
+
+				    <dd><a href="http://member.esunny.com/Site/SelectTemplate.aspx">外观设置</a></dd>
+				    <dd><a href="http://member.esunny.com/Site/DomainCheck.aspx">独立域名</a></dd>
+    				
+				    <dd><a href="http://member.esunny.com/Site/LinkList.aspx">友情链接</a></dd>
+				    <dd><a href="http://member.esunny.com/Album/ProductAlbum.aspx">产品相册</a></dd>
+                    <dd><a href="http://member.esunny.com/TalksOnline/AdvertSetting.aspx">在线洽谈</a></dd>
+                    <dd><a href="http://member.esunny.com/Info/Qualification.aspx">荣誉证书</a></dd>
+
+                    <dd><a href="http://member.esunny.com/Wap/WapApply.aspx">手机商铺</a></dd>
+			    </dl>
+			    <dl class="clearfix">
+				    <dt>交易管理</dt>
+				    <dd><a href="http://trading.esunny.com/order/sell_order_list.htm">已销售订单</a></dd>
+				    <dd><a href="http://trading.esunny.com/order/buy_order_list.htm">已采购订单</a></dd>
+				    <dd><a href="http://trading.esunny.com/order/query_cart.htm">采购单</a></dd>
+
+				    <dd><a href="http://trading.esunny.com/bind/query_espay_profile.htm">账户查询</a></dd>
+			    </dl>
+		    </div>
+		<div class="clear">
+		</div>
+	</div> <div class="main clearfix">
+	<div class="error-inc">
+    		<div class="error-info">
+
+            <span class="error-title">页面出错啦！</span>
+            <span>可能的原因是：</span>
+            	<p class="error-text">
+                ·你要查找的页面已经被移走或删除了<br />
+                ·在地址栏中键入错误<br />
+                ·服务器忙<br />
+
+                ·订单状态已变更
+                </p>
+<span class="block mar-tb20">建议您返回刷新后重试</span>
+            </div>
+    </div>
+</div>
+﻿<div class="footer">
+<p class="link">
+  <a href="http://cn.esunny.com/about/aboutus.html">关于宇商网</a> 
+| <a href="http://cn.esunny.com/about/job.html">诚聘英才</a> 
+
+| <a href="http://cn.esunny.com/about/copyright.html">法律声明</a> 
+| <a href="http://cn.esunny.com/about/idea.html">意见投诉</a> 
+| <a href="http://cn.esunny.com/help.html">帮助中心</a> 
+| <a href="http://cn.esunny.com/about/links.html">友情链接</a> 
+| <a href="http://cn.esunny.com/Trade/Channel.html">渠道合作</a> 
+| <a href="http://agent.esunny.com/">渠道商入口</a> 
+
+| <a href="http://cn.esunny.com/About/EmployeeSearch/1.html">员工查询</a> 
+| <a href="http://cn.esunny.com/about/contact.html">联系我们</a> 
+</p>
+<p>地址：深圳市福田区深南中路3039号国际文化大厦3A层 客服:400-6666-135 客服传真:0755-88398068 广告及合作咨询热线:0755-88392952</p>
+<p><cite>怡亚通(股票代码:002183)旗下网站</cite>
+<font style="font-family: Arial">&copy;</font> 2008-2010 深圳市联合数码控股有限公司 版权所有 <span class="bak">粤ICP证B2-20100255</span></p>
+</div>
+<script type="text/javascript" src="http://style.esunnyimg.com/script/common-min.js?t=20110602"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+<ul class="leftul">
+	
+#foreach($menuItem in $!menuItemList)
+	<li><a href="#">$!menuItem.name</a></li>
+	<ul class="ziul1">
+		#foreach($!childMenuItem in $!menuItem.childList)
+			<li  #if($!curMenuCode == $!$!childMenuItem.code ) style="background-color:#BCD2EE" #end><a href="$myres.getUrl("url.satellite")/$!childMenuItem.url">$!childMenuItem.name</a></li>
+		#end  	
+	</ul>
+#end
+</ul>

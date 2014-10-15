@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" default-autowire="byName">
+
+	<bean id="reportCommonQueryAction" class="com.esunny.satellite.web.action.report.ReportCommonQueryAction" scope="prototype">
+	</bean>
+	
+	<bean id="reportManagerAction" class="com.esunny.satellite.web.action.report.ReportManagerAction" scope="prototype">
+	</bean>
+	
+	<bean id="reportEditAction" class="com.esunny.satellite.web.action.report.ReportEditAction" scope="prototype">
+	</bean>
+	
+	<bean id="reportRealTimeQueryAction" class="com.esunny.satellite.web.action.report.ReportRealTimeQueryAction" scope="prototype">
+	</bean>
+	
+	<bean id="sourceKeywordQueryAction" class="com.esunny.satellite.web.action.report.SourceKeywordQueryAction" scope="prototype">
+	</bean>
+	
+	<bean id="userOrderPeriodAction" class="com.esunny.satellite.web.action.report.UserOrderPeriodAction" scope="prototype">
+	</bean>
+	
+	<bean id="operationalTopicsUrlAction" class="com.esunny.satellite.web.action.report.OperationalTopicsUrlAction" scope="prototype">
+	</bean>
+</beans>

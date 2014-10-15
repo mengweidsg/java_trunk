@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="REPORT_MENU" >
+  <typeAlias alias="ReportMenu" type="com.esunny.satellite.report.entity.ReportMenu" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="AND" property="id"> id = #id:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="name"> name = #name:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="tableName"> table_name = #tableName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="url"> url = #url:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="menuLevel"> menu_level = #menuLevel:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="parentId"> parent_id = #parentId:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="reportName"> report_name = #reportName:VARCHAR# </isNotEmpty>
+    </dynamic>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, name, table_name as tableName, url, menu_level as menuLevel, parent_id as parentId, 
+    report_name as reportName, authority_type as authorityType, hide_flag as hideFlag
+  </sql>
+  
+  <select id="queryReportMenuList" resultClass="ReportMenu" parameterClass="ReportMenu" >
+    select
+    <include refid="REPORT_MENU.Base_Column_List" />
+    from report_menu
+    <isParameterPresent >
+      <include refid="REPORT_MENU.Base_Where" />
+    </isParameterPresent>
+    <isNotNull property="orderByClause" >
+      order by $orderByClause$
+    </isNotNull>
+  </select>
+  
+  <delete id="deleteReportMenuById" parameterClass="Long" >
+    delete from report_menu where id = #value#
+  </delete>
+  
+  <insert id="insertReportMenu" parameterClass="ReportMenu" >
+    insert into report_menu(id, name, table_name, url, menu_level, parent_id, report_name, authority_type, hide_flag)
+    values(#id:DECIMAL#, #name:VARCHAR#, #tableName:VARCHAR#, #url:VARCHAR#, #menuLevel:VARCHAR#, #parentId:DECIMAL#, #reportName:VARCHAR#, #authorityType:DECIMAL#, #hideFlag:DECIMAL#)
+  </insert>
+
+</sqlMap>

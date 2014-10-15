@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-autowire="byName">
+	
+	<bean id="reportSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/satelliteReportSqlMapConfig.xml" />
+	</bean>
+
+	<!-- dao base -->
+	<bean id="reportDaoBase" class="com.esunny.platform.dao.SqlMapDaoBase"
+		abstract="true">
+		<property name="sqlMapClient" ref="reportSqlMapClient" />
+	</bean>
+	
+	<bean id="reportInfoPlusDao"
+		class="com.esunny.satellite.report.dao.impl.ReportInfoPlusDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="reportMenuDao"
+		class="com.esunny.satellite.report.dao.impl.ReportMenuDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="reportSearchConditionDao"
+		class="com.esunny.satellite.report.dao.impl.ReportSearchConditionDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="reportEnumDao"
+		class="com.esunny.satellite.report.dao.impl.ReportEnumDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="dwUserInfoDao"
+		class="com.esunny.satellite.report.dao.impl.DwUserInfoDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="allTabColumnsDao"
+		class="com.esunny.satellite.report.dao.impl.AllTabColumnsDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="reportDisplayColumnDao"
+		class="com.esunny.satellite.report.dao.impl.ReportDisplayColumnDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+	
+	<bean id="dwOperationalTopicsUrlDao"
+		class="com.esunny.satellite.report.dao.impl.DwOperationalTopicsUrlDaoImpl"
+		parent="reportDaoBase">
+	</bean>
+</beans>

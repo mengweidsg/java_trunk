@@ -1,0 +1,194 @@
+#set($layout = "layout.vm") ##选择布局页面
+#set($page_title="报表管理-"+$!menuInfo.name)
+#parse("VM_global_library.vm")
+
+<script type="text/javascript" src="$!myres.getUrl('url.style','/bopsstyle/script/dialog/dialog-min.js').queryData('v',$myres.getSystem('style_version'))"></script>
+<link type="text/css" rel="stylesheet" href="$!myres.getUrl('url.style','/bopsstyle/script/dialog/dialog.css').queryData('v',$myres.getSystem('style_version'))" />
+<link type="text/css" rel="stylesheet" href="$!myres.getUrl('url.style','/bopsstyle/script/datepicker/jquery.ui.datepicker.css').queryData('v',$myres.getSystem('style_version'))" />
+<script type="text/javascript"  src="$!myres.getUrl('url.style','/bopsstyle/script/datepicker/jquery.ui.datepicker.min.js').queryData('v',$myres.getSystem('style_version'))"></script>
+
+<div class="rightzong">
+<div class="rightiframe" >
+<form name="managerForm" method="post" action="query_list.htm" id="managerForm">
+	<table class="tableContainer" cellpadding="2" cellspacing="3" width="100%" border='0'>
+		<tbody>
+			<tr>
+    			<td align="left">
+    				
+    				<div >
+                        <font style="color:Red">#printFiledErrors($message)</font>
+    				</div>
+    			</td>
+    		</tr>
+    		<tr class="lanbg">
+    			<td align="left" valign="top">
+					<table class="tableContent tabto" cellspacing="1" width="100%" border="0">
+						<tr>
+    						<table  border="0">
+    							<tr >
+    							#foreach($condition in $searchCondition)
+    							<td>
+    								$condition.get("COLUMN_DISPLAY_NAME")：
+    								#if($condition.get("INPUT_TYPE") && $condition.get("INPUT_TYPE") == 1)
+    									<input id="$condition.get("COLUMN_NAME")" name="$condition.get("COLUMN_NAME")" class="textBox" style="height: 15px; width: 80px;" type="text" value="$!pageValueMap.get($condition.get('COLUMN_NAME'))">
+									#elseif($condition.get("INPUT_TYPE") && $condition.get("INPUT_TYPE") == 2)
+										#if($!pageValueMap.get($condition.get('COLUMN_NAME')))
+											#set($nowValue=$!pageValueMap.get($condition.get('COLUMN_NAME')))
+										#else 
+											#set($nowValue="esunny_all")
+										#end
+										<select id="$condition.get("COLUMN_NAME")" name="$condition.get("COLUMN_NAME")">
+											#foreach($enumValue in $enumValueMap.get($condition.get("COLUMN_NAME")))
+												<option value="$enumValue.get('ENUM_CODE_COLUMN')" #if($enumValue.get('ENUM_CODE_COLUMN')==$nowValue) selected#end>$enumValue.get('ENUM_VALUE_COLUMN')</option>
+											#end
+                                        </select>
+									#elseif($condition.get("INPUT_TYPE") && $condition.get("INPUT_TYPE") == 3)
+										<input id="$condition.get("COLUMN_NAME")" name="$condition.get("COLUMN_NAME")" timer="true" readonly="readonly" value="$!pageValueMap.get($condition.get('COLUMN_NAME'))" class="Wdate"  style="width: 100px;" type="text">
+									#end
+    							</td>
+    							#end
+    							</tr>
+                            </table>
+						</tr>
+						<tr>
+							<td align="right">排序:
+                                <select id="orderBy" name="orderBy">
+									#foreach($displayColumn in $displayColumnInfo)
+										<option value="$displayColumn.columnName" #if($displayColumn.columnName==$!pageValueMap.get('orderBy'))selected #end>$displayColumn.columnDisplayName </option>
+									#end
+								</select>
+								 <select id="orderBy_2" name="orderBy_2">
+									<option value="desc" #if($!pageValueMap.get('orderBy_2')=="desc")selected #end>降序 </option>
+									<option value="asc" #if($!pageValueMap.get('orderBy_2')=="asc")selected #end>升序 </option>
+								</select>
+								<input  value="查 询" id="btnSearch" class="button" type="button" onclick="submitForm(1);">&nbsp;&nbsp;&nbsp;
+								<input  value="导出" id="btnSearch" class="button" type="button" onclick="exportExcel();">&nbsp;&nbsp;&nbsp;
+							</td>
+						</tr>
+    				</table>
+    				<table class="dataGrid tab" style="border-color: Silver; border-width: 1px; position: static; width: 100%; height: 20px;" border="1" cellpadding="5" cellspacing="1" rules="all">
+    						<tr class="dataGridHeader lanbg">
+								#foreach($displayColumn in $displayColumnInfo)
+									<td>$displayColumn.columnDisplayName</td>
+								#end
+    						</tr>
+							#foreach($rs in $reportResult)
+								<tr>
+									#foreach($displayColumn in $displayColumnInfo)
+										#if($displayColumn.isEnum == 1)
+											<td>
+												#if($displayEnumMap.get($displayColumn.columnName).get($!rs.get($displayColumn.columnName)))
+													$displayEnumMap.get($displayColumn.columnName).get($!rs.get($displayColumn.columnName))
+												#else
+													$!rs.get($displayColumn.columnName)
+												#end
+											</td>
+											#else
+											<td>$!rs.get($displayColumn.columnName)</td>
+										#end
+									#end
+								</tr>
+							#end
+    				</table>
+					#if(${query.pageNo} && ${query.totalCount} > 0)
+        				<table class="tableContent" cellspacing="1" width="100%">
+        					<tbody>
+        						<tr>
+        							<td width="74">
+        								&nbsp;&nbsp;
+        							</td>
+        							<td align="right">
+    									<a href="javascript:;;" id="lnkFirstPage" onclick="submitForm(3);">首页</a>
+    									#if(${query.pageNo} > 1)
+                                            <a href="javascript:;;" id="lnkPrePage" onclick="submitForm(4);">上一页</a>
+    									#end
+    									
+    									#if(${query.pageNo} < ${query.pageCount})	
+                                            <a href="javascript:;;" id="lnkNextPage" onclick="submitForm(5);">下一页</a>
+    									#end
+    									<a href="javascript:;;" id="lnkLastPage" onclick="submitForm(6);">末页</a>
+    									&nbsp;&nbsp;
+    									每页显示条数
+    									<select name="pageSize" id="pageSize" onchange="changePageSize();">
+    										<option #if($!{pageSize} == '20') selected="selected" #end value="20">20</option>
+    										<option #if($!{pageSize} == '50') selected="selected" #end value="50">50</option>
+    										<option #if($!{pageSize} == '100') selected="selected" #end value="100">100</option>
+                                        </select>
+    									共<span>#if(${query.totalCount} && $!{query.totalCount} > 0) 
+    											$!{query.totalCount}
+    											#end
+    										</span>条
+    									&nbsp;&nbsp;
+    									当前为第<span>$!{query.pageNo}</span>页   共<span>$!{query.pageCount}</span>页
+    									&nbsp;&nbsp;&nbsp;跳转到第<input type="text" id="txtPageNo" name="txtPageNo" size="3px"/>页
+    									<input type="button" id="btnGo" value="go..." onclick="submitForm(2);"/>
+                                        </a>
+    								</td>
+        						</tr>
+        					</tbody>
+        				</table>
+					#end
+    			</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<input type="hidden"  id="reportTableName" name= "reportTableName" value="$!{reportTableName}"/>
+	<input type="hidden" id="pageNo" name="pageNo" value="${query.pageNo}"/>
+	<input type="hidden" id="pageCount" name="pageCount" value="${query.pageCount}"/>
+	<!-- 导出excel时的检索参数 -->
+	#foreach($condition in $searchCondition)
+		<input id="excel_$condition.get("COLUMN_NAME")" name="excel_$condition.get("COLUMN_NAME")" type="hidden" value="$!pageValueMap.get($condition.get('COLUMN_NAME'))">
+	#end
+	
+
+</form>
+</div>
+</div>
+<script >
+$(function(){
+	// 时间空间初始化
+	$("input[timer='true']").each(function(){
+		var id= $(this).attr("id");
+		eval("jQuery('#"+id+" , #"+id+"').datepicker()");
+	});
+});
+/**
+ * form 提交 （参数type 1：查询按钮  2：go按钮 3 首页： 4： 上一页  5：下一页 6：末页）默认查询按钮
+ */
+function submitForm(type){
+    var no =  $("#pageNo").attr("value");
+    if (type == 1 || type == 3) {
+       $("#pageNo").attr("value",1);
+    } else if (type == 2) {
+       var txtPageNo = $("#txtPageNo").attr("value");
+       $("#pageNo").attr("value", txtPageNo);
+    } else if (type == 4) {
+       no = parseInt(no) - 1;
+       if (no < 1) {
+          no = 1;
+       }
+       $("#pageNo").attr("value", no);
+    } else if (type == 5) {
+       no = parseInt(no) + 1;
+       if (no < 1) {
+          no = 1;
+       }
+       $("#pageNo").attr("value", no);   
+    }else if (type == 6) {
+       var pageCount = $("#pageCount").attr("value");
+       $("#pageNo").attr("value", pageCount);   
+    }
+	$("#managerForm").attr("action", "query_list.htm");
+    $("#managerForm").submit();
+}
+function changePageSize(){
+    $("#pageNo").attr("value", 1);
+	$("#managerForm").attr("action", "query_list.htm");
+    $("#managerForm").submit();
+}
+function exportExcel(){
+    $("#managerForm").attr("action", "export_excel.htm");
+    $("#managerForm").submit();
+}
+</script>

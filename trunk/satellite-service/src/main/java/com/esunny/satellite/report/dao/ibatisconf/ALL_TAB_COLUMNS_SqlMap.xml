@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="ALL_TAB_COLUMNS" >
+  <typeAlias alias="AllTabColumns" type="com.esunny.satellite.report.entity.AllTabColumns" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="AND" property="owner"> owner = #owner:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="tableName"> table_name = #tableName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="columnName"> column_name = #columnName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="dataType"> data_type = #dataType:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="dataTypeMod"> data_type_mod = #dataTypeMod:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="dataTypeOwner"> data_type_owner = #dataTypeOwner:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="dataLength"> data_length = #dataLength:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="dataPrecision"> data_precision = #dataPrecision:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="dataScale"> data_scale = #dataScale:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="nullable"> nullable = #nullable:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="columnId"> column_id = #columnId:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="defaultLength"> default_length = #defaultLength:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="numDistinct"> num_distinct = #numDistinct:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="density"> density = #density:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="numNulls"> num_nulls = #numNulls:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="numBuckets"> num_buckets = #numBuckets:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="lastAnalyzed"> last_analyzed = #lastAnalyzed:DATE# </isNotNull>
+      <isNotNull prepend="AND" property="sampleSize"> sample_size = #sampleSize:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="characterSetName"> character_set_name = #characterSetName:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="charColDeclLength"> char_col_decl_length = #charColDeclLength:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="globalStats"> global_stats = #globalStats:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="userStats"> user_stats = #userStats:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="avgColLen"> avg_col_len = #avgColLen:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="charLength"> char_length = #charLength:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="charUsed"> char_used = #charUsed:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="v80FmtImage"> v80_fmt_image = #v80FmtImage:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="dataUpgraded"> data_upgraded = #dataUpgraded:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="histogram"> histogram = #histogram:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="dataDefault"> data_default = #dataDefault:LONGVARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="lowValue"> low_value = #lowValue:VARBINARY# </isNotNull>
+      <isNotNull prepend="AND" property="highValue"> high_value = #highValue:VARBINARY# </isNotNull>
+    </dynamic>
+  </sql>
+  <sql id="Base_Column_List" >
+    owner, table_name as tableName, column_name as columnName, data_type as dataType, 
+    data_type_mod as dataTypeMod, data_type_owner as dataTypeOwner, data_length as dataLength, 
+    data_precision as dataPrecision, data_scale as dataScale, nullable, column_id as columnId, 
+    default_length as defaultLength, num_distinct as numDistinct, density, num_nulls as numNulls, 
+    num_buckets as numBuckets, last_analyzed as lastAnalyzed, sample_size as sampleSize, 
+    character_set_name as characterSetName, char_col_decl_length as charColDeclLength, 
+    global_stats as globalStats, user_stats as userStats, avg_col_len as avgColLen, char_length as charLength, 
+    char_used as charUsed, v80_fmt_image as v80FmtImage, data_upgraded as dataUpgraded, 
+    histogram
+  </sql>
+  <sql id="Blob_Column_List" >
+    data_default as dataDefault, low_value as lowValue, high_value as highValue
+  </sql>
+
+  <select id="queryColInfoList" resultClass="AllTabColumns" parameterClass="AllTabColumns" >
+    select
+    <include refid="ALL_TAB_COLUMNS.Base_Column_List" />
+    from all_tab_columns
+    <isParameterPresent >
+      <include refid="ALL_TAB_COLUMNS.Base_Where" />
+    </isParameterPresent>
+    <isNotNull property="orderByClause" >
+      order by $orderByClause$
+    </isNotNull>
+  </select>
+
+</sqlMap>

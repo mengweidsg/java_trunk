@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="REPORT_DISPLAY_COLUMN" >
+  <typeAlias alias="ReportDisplayColumn" type="com.esunny.satellite.report.entity.ReportDisplayColumn" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="AND" property="id"> id = #id:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="tableName"> table_name = #tableName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="columnName"> column_name = #columnName:VARCHAR# </isNotEmpty>
+      <isNotEmpty prepend="AND" property="columnDisplayName"> column_display_name = #columnDisplayName:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="isEnum"> is_enum = #isEnum:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="enumTableName"> enum_table_name = #enumTableName:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="sort"> sort = #sort:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="isSum"> is_sum = #isSum:DECIMAL# </isNotNull>
+      <isNotEmpty prepend="AND" property="columnDataType"> column_data_type = #columnDataType:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="isGroupBy"> is_group_by = #isGroupBy:DECIMAL# </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    id, table_name as tableName, column_name as columnName, column_display_name as columnDisplayName, 
+    is_enum as isEnum, enum_table_name as enumTableName, sort, is_sum as isSum, column_data_type as columnDataType, 
+    is_group_by as isGroupBy
+  </sql>
+  
+  <select id="queryColumnList" resultClass="ReportDisplayColumn" parameterClass="ReportDisplayColumn" >
+    select
+    <include refid="REPORT_DISPLAY_COLUMN.Base_Column_List" />
+    from report_display_column
+    <isParameterPresent >
+      <include refid="REPORT_DISPLAY_COLUMN.Base_Where" />
+    </isParameterPresent>
+    <isNotNull property="orderByClause" >
+      order by $orderByClause$
+    </isNotNull>
+  </select>
+
+</sqlMap>

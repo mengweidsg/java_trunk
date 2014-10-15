@@ -1,0 +1,179 @@
+#set($layout = "layout.vm") 
+#set($title=${currentMenu.name})
+#parse("VM_global_library.vm")
+            
+<div id="content-main">
+    <form name="managerForm" method="post" action="" id="managerForm">
+        <div class="inner">
+            <div class="i-t clearfix">
+                <span class="L f14b">$!{currentMenu.name}</span>
+                <span class="R">
+					#if(${searchConditonVo.doubleDateInfo})
+                    $!{searchConditonVo.doubleDateInfo.columnDisplayName}:&nbsp;<input class="Wdate" style="width: 100px;" readonly="readonly" type="text" id="from" name="$!{searchConditonVo.doubleDateInfo.columnName}From" value="$!{searchConditonVo.doubleDateInfo.valueList.get(0)}"/>&nbsp;-&nbsp;<input class="Wdate" style="width: 100px;" readonly="readonly" type="text"  id="to" name="$!{searchConditonVo.doubleDateInfo.columnName}To" value="$!{searchConditonVo.doubleDateInfo.valueList.get(1)}"/> 
+					#end
+                </span>
+            </div>
+            
+            <div class="i-m">
+                <!-- tab切换 和排序 -->
+                <div class="im-t clearfix">
+					<!--
+					#if(${searchConditonVo.liLinkInfo} && ${enumMap.get($!{searchConditonVo.liLinkInfo.enumTableName})})
+                    <span class="L">&nbsp;&nbsp;$!{searchConditonVo.liLinkInfo.columnDisplayName}：</span>
+                    <ul class="L tab-list" id="ulTabList">
+						#foreach($key in ${enumMap.get($!{searchConditonVo.liLinkInfo.enumTableName})})
+                        <li><a href="#" no="$key" class="on">$key</a></li>
+						#end
+                        <input type="hidden" name="hidTabCond" id="hidTabCond" value="ALL"/>
+                    </ul>
+					#end-->
+                    <span class="L">
+                    <table  border="0">
+                        <tr >
+                            #foreach($detailCondInfo in ${searchConditonVo.detailList})
+                                <td>&nbsp;
+                                    ${detailCondInfo.columnDisplayName}：
+                                    <!-- 输入框 -->
+                                    #if(${detailCondInfo.inputType} && ${detailCondInfo.inputType} == 1)
+                                        <input id="${detailCondInfo.columnName}" name="${detailCondInfo.columnName}" class="textBox" style="height: 15px; width: 80px;" type="text" value="$!{detailCondInfo.value}">
+                                    <!-- 下拉框 -->
+                                    #elseif(${detailCondInfo.inputType} && ${detailCondInfo.inputType} == 2)
+                                        <select id="${detailCondInfo.columnName}" name="${detailCondInfo.columnName}">
+                                            #foreach($enumKey in ${enumMap.get($!{detailCondInfo.enumTableName}).keySet()})
+                                                <option value="$!enumKey" #if($enumKey == $!{detailCondInfo.value}) selected #end>$!{enumMap.get($!{detailCondInfo.enumTableName}).get($enumKey)}</option>
+                                            #end
+                                        </select>
+                                    <!-- 日期选择框 -->
+                                    #elseif(${detailCondInfo.inputType} && ${detailCondInfo.inputType} == 3)
+                                        <input id="${detailCondInfo.columnName}" name="${detailCondInfo.columnName}" timer="true" readonly="readonly" value="$!{detailCondInfo.value}" class="Wdate"  style="width: 100px;" type="text">
+                                    #end
+                                </td>
+                            #end
+                        </tr>
+                    </table>
+                    </span>
+                    <span class="R">
+                        #if(($reportInfoPlus && ${reportInfoPlus.hideSort} == "0") && $displayColumnInfo && $displayColumnInfo.size() > 0)
+							排序:<select id="orderBy" name="orderBy">
+                            #foreach($displayColumn in $displayColumnInfo)
+                                <option value="$displayColumn.columnName" #if($displayColumn.columnName==$!pageValueMap.get('orderBy'))selected #end>$displayColumn.columnDisplayName </option>
+                            #end
+                            </select>
+                            <select id="orderBy_2" name="orderBy_2">
+                                <option value="desc" #if($!pageValueMap.get('orderBy_2')=="desc")selected #end>降序 </option>
+                                <option value="asc" #if($!pageValueMap.get('orderBy_2')=="asc")selected #end>升序 </option>
+                            </select>
+                        #end
+                        <a href="javascript:;;" id="lnkSearch">查询</a>&nbsp;&nbsp;
+                        <a href="javascript:;;" id="lnkExport">导出</a>
+                    </span>
+                </div>
+                
+                <div class="data-tab">
+                <table width="100%" id="tblData">
+                    <tr>
+                        #if($reportInfoPlus && ${reportInfoPlus.needIndex} == "1")
+                            <th>序号</th>
+                        #end
+                        #foreach($displayColumn in $displayColumnInfo)
+                            <th>$displayColumn.columnDisplayName</th>
+                        #end
+                    </tr>
+					#if(${query.pageNo}) 
+						#set($rowIdx=((${query.pageNo} - 1) * $!{query.pageSize})+1)
+					#else
+						#set($rowIdx=1)
+					#end
+                    #foreach($rs in $reportResult)
+                        <tr #if($velocityCount % 2 == 1)class="type1"#end>
+                        #if($reportInfoPlus && ${reportInfoPlus.needIndex} == "1")
+                            <td>$!rowIdx</td>
+                        #end
+                        #foreach($displayColumn in $displayColumnInfo)
+                            #if($displayColumn.isEnum == 1)
+                            <td>
+                                #if($enumMap.get($displayColumn.enumTableName).get($!rs.get($displayColumn.columnName)))
+                                    $enumMap.get($displayColumn.enumTableName).get($!rs.get($displayColumn.columnName))
+                                #else
+                                    $!rs.get($displayColumn.columnName)
+                                #end
+                            </td>
+                            #else
+                            <td>$!rs.get($displayColumn.columnName)</td>
+                            #end
+                        #end
+                        </tr>
+                        #set($rowIdx=$rowIdx+1)
+                    #end
+                </table>
+                </div>
+                
+                <!--翻页-->
+                #parse("screen/pagebar.vm")
+            </div>
+            <div class="i-b"></div>
+        </div>
+
+        <input type="hidden" id="downloadFlag" name="downloadFlag" value=""/>
+        <input type="hidden" id="pageNo" name="query.pageNo" value="$!{query.pageNo}"/>
+        <input type="hidden" name="query.pageSize" value="$!{query.pageSize}"/>
+    </form>
+</div>
+        
+        <script type="text/javascript">
+        var reportName = "$!{currentMenu.tableName}";
+        var loginUser = "$!{dwUserInfo.userId}";
+        $(function(){
+            //时间控件选择
+            var dates = jQuery( "#from, #to" ).datepicker({
+                changeMonth: true,
+                changeYear: true,
+                numberOfMonths: 1,
+                showAnim:  '', 
+                onSelect: function( selectedDate ) {
+                    var option = this.id == "from" ? "minDate" : "maxDate",
+                        instance = jQuery( this ).data( "datepicker" ),
+                        date = jQuery.datepicker.parseDate(
+                            instance.settings.dateFormat ||
+                            jQuery.datepicker._defaults.dateFormat,
+                            selectedDate, instance.settings );
+                    dates.not( this ).datepicker( "option", option, date );
+                },
+                onClose: function() {
+                    if(!(/^\d{4}-\d{2}-\d{2}$/).test(this.value)){
+                    this.value=''
+                    }
+                }
+            });
+        
+            // 时间控件初始化
+             $("input[timer='true']").each(function(){
+                var id= $(this).attr("id");
+                eval("jQuery('#"+id+" , #"+id+"').datepicker()");
+            });
+            // 查询
+            $("#lnkSearch").click(function(){
+                tracelogRequest("search","&pm1="+reportName+"&pm2="+loginUser);
+                $("#pageNo").val("1");
+                $("#downloadFlag").val("");
+            	$("#managerForm").submit();
+                
+            });
+            // 导出
+            $("#lnkExport").click(function(){
+                tracelogRequest("download","&pm1="+reportName+"&pm2="+loginUser);
+            	$("#downloadFlag").val("true");
+            	$("#managerForm").submit();
+            });
+
+            $("#tblData tr:gt(0)").hover(function(){$(this).addClass('type2');}, function(){$(this).removeClass('type2');});
+
+        });
+
+        function exportExcel(){
+        }
+
+           
+        </script>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+<style>
+	.menu_bg {
+	  background-color:#BCD2EE;
+	}
+</style>
+<script type="text/javascript">
+	function loginOff(){
+		window.location.href=$("#rightupurl").val();
+	}
+</script>
+<div class="zongd">
+<input type="hidden"  id="rightupurl" value="$myres.getUrl("url.bops")/login/logout.htm"/>
+  <div class="top1"><img src="$myres.getUrl("url.style")/bopsstyle/images/logo.png">
+    <div class="top2">
+    <p class="shijian"><span class="shengy">欢迎使用BO系统杭州平台</span><span class="hour">当前时间：$mydate.getToday("yyyy年MM月dd日")  星期$mydate.getWeek()</span></p>
+  <p class="bantop">尊敬的 <font class="org">$!loginUser</font>，欢迎您使用BO系统！&nbsp;&nbsp; <a href="http://admin.esunny.com" target="_blank">深圳BO管理平台</a> &nbsp; <input type="button" class="but-b" onclick="loginOff()" value="退出"></p>
+    </div>
+  </div>
+  <div class="clear"></div>
+  <div class="top3">
+      <ul id="navlist">
+		#foreach($menuItem in $!menuRootList)
+            <li class="v2">&nbsp;</li>
+            <li id="rootMeunu" #if($!rootMenuCode == $!$!menuItem.code )class="menu_bg" #end> <a href="$myres.getUrl("url.satellite")/$!menuItem.url"> <span>$!menuItem.name</span></a></li>
+		#end	
+
+  </ul>
+  <div class="top4">&nbsp;</div>
+  </div>
+  
+<div class="clear"></div>

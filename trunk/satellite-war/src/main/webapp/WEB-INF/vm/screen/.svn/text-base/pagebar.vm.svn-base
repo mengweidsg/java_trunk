@@ -1,0 +1,63 @@
+<div class="paging clearfix">
+    <div class="p-skip">
+        <span class="p-sum">共$!{query.pageCount}页</span>转到第<input type="text" maxlength="3" class="skipto" name="turnPageNo"/>页
+        <input type="button" id="btnTurnPage" value="确定" class="btn-gray52x26"/>
+    </div>
+    <div class="p-page">
+        #if(${query.pageNo} > 1)
+			#set($pagePre=${query.pageNo} - 1)
+            <a class="p-prev" href="javascript:;;" id="lnkPrePage" no="$!pagePre">上一页</a>
+        #end
+        #if(${query.startPage} > 1)
+            <span class="p-break">...</span>
+        #end
+        #if(${query.pageCount} > 1)
+            #foreach($curPageNo in [${query.startPage} .. ${query.endPage}])
+                <a #if($curPageNo == ${query.pageNo})class="p-cur"#end href="javascript:;" no="$!curPageNo">$curPageNo</a>
+            #end
+        #end
+        #if(${query.endPage} < ${query.pageCount})
+            <span class="p-break">...</span>
+        #end
+        #if(${query.pageNo} < ${query.pageCount})
+            <a class="p-next" href="javascript:;;" id="lnkNextPage" no="${query.nextPage}"">下一页</a>
+        #end
+    </div>
+</div>
+	
+<script>
+$(function(){
+	
+	// 点击页码链接
+	$(".p-page a").bind("click",function(){
+		changePage($(this).attr("no"));
+		return false;
+	})
+	
+	// 页码输入框如果输入非数字，则直接过滤
+	$(".p-skip input[name=turnPageNo]").bind("keyup",function(){
+		var inputNo = $(this).val();
+		$(this).val(inputNo.replace(/\D/g, ''));
+	})
+	
+	// 点击确定按钮
+	$(".p-skip #btnTurnPage").bind("click",function(){
+		var reg = /^[1-9]\d{0,13}$/;
+		var pageNo = $(".p-skip input[name=turnPageNo]").val();
+		if(reg.test(pageNo)){
+			changePage(pageNo);
+		} else {
+			$(".p-skip input[name=turnPageNo]").focus();
+		}
+	})
+})
+
+/**
+ * 页面跳转
+ */
+function changePage(pageNo){
+	$("#pageNo").val(pageNo);
+	$("#downloadFlag").val("");
+	$("form").eq(0).submit();
+}
+</script>

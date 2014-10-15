@@ -1,0 +1,92 @@
+#set($layout = "layout.vm") 
+#set($menuInfo.reportName="用户管理")
+#parse("VM_global_library.vm")
+
+<div id="content-main">
+    <form name="managerForm" method="post" action="query_user_list.htm" id="managerForm">
+        <div class="inner">
+            <div class="i-t clearfix">
+                <span class="L f14b">用户管理</span>
+            </div>
+            <div class="i-m">
+                <!-- tab切换 和排序 -->
+                <div class="clearfix">
+                    <span class="R fB mar-b10"><a name="lnkAddDwUser" href="javascript:;;">添加新用户</a></span>
+                </div>
+                <div class="data-tab">
+                    <table width="100%" id="tblData">
+                        <tr>
+                            <th>序号</th>
+                            <th>用户名</th>
+                            <th>部门</th>
+                            <th>角色</th>
+                            <th>操作</th>
+                        </tr>
+						#if(${query.pageNo}) 
+							#set($rowIdx=((${query.pageNo} - 1) * $!{query.pageSize})+1)
+						#else
+							#set($rowIdx=1)
+						#end
+						#if($userInfoList&&$userInfoList.size()>0)
+							#foreach($userInfo in $userInfoList)
+                                <tr #if($velocityCount % 2 == 1)class="type1"#end>
+                                    <td>$!rowIdx</td>
+                                    <td>$!{userInfo.userId}</td>
+                                    <td>$!{userInfo.departmentName}</td>
+                                    <td>#if($!{userInfo.userIdentity}=="1")用户#elseif($!{userInfo.userIdentity}=="2")管理员#elseif($!{userInfo.userIdentity}=="9")超级管理员#end</td>
+                                    <td><a href="javascript:;;" no="$!{userInfo.id}" name="lnkEditDwUser" class="mar-r10">设置</a><a href="javascript:;;" no="$!{userInfo.id}" name="lnkDeleteDwUser" class="mar-r10">删除</a><a no="$!{userInfo.id}" name="lnkReportManage" href="javascript:;;">报表管理</a></td>
+                                </tr>
+								#set($rowIdx=$rowIdx+1)
+							#end
+						#end
+                    </table>
+                </div>
+                <!--翻页-->
+                #parse("screen/pagebar.vm")
+            </div>
+            <div class="i-b">
+            </div>
+        </div>
+        <input type="hidden" id="pageNo" name="query.pageNo" value="$!{query.pageNo}" />
+        <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+    </form>
+</div>
+
+<form name="operateForm" method="post" action="show_edit_dw_user.htm" id="operateForm">
+        <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+        <input type="hidden" name="query.id" value="$!{query.id}" />
+        <input type="hidden" id="pageNo" name="query.pageNo" value="$!{query.pageNo}" />
+</form>
+<script >
+$(document).ready(function(){
+    // 添加新用户链接
+    $("a[name=lnkAddDwUser]").bind({
+        click:function(){
+            $("#operateForm").submit();
+        }
+    });
+    // 设置用户链接
+    $("a[name=lnkEditDwUser]").bind({
+        click:function(){
+			$("input[name=query.id]").val($(this).attr("no"));
+            $("#operateForm").submit();
+        }
+    });
+    // 删除用户链接
+    $("a[name=lnkDeleteDwUser]").bind({
+        click:function(){
+			$("input[name=query.id]").val($(this).attr("no"));
+            $("#operateForm").attr("action", "delete_dw_user.htm");
+            $("#operateForm").submit();
+        }
+    });
+    // 报表管理链接
+    $("a[name=lnkReportManage]").bind({
+        click:function(){
+			$("input[name=query.id]").val($(this).attr("no"));
+            $("#operateForm").attr("action", "show_report_authority_manager.htm");
+            $("#operateForm").submit();
+        }
+    });
+});
+</script>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="REPORT_ENUM">
+	<typeAlias alias="ReportEnum"
+		type="com.esunny.satellite.report.entity.ReportEnum" />
+
+	<sql id="Base_Column_List">
+		id, table_name as tableName, enum_code_column as enumCodeColumn,
+		enum_value_column as enumValueColumn
+	</sql>
+
+	<select id="queryAllReportEnum" resultClass="ReportEnum">
+		select
+		<include refid="REPORT_ENUM.Base_Column_List" />
+		from report_enum
+	</select>
+
+	<select id="queryReportByEnumNameList" resultClass="ReportEnum" parameterClass="list">
+		select
+		<include refid="REPORT_ENUM.Base_Column_List" />
+		from report_enum t where t.table_name in
+		<iterate open="(" close=")"   conjunction="," >
+			#[]#
+		</iterate>
+	</select>
+
+</sqlMap>

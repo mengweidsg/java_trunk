@@ -1,0 +1,4 @@
+default=/
+satellite.cookie.domain=${satellite_cookie_domain}
+url.satellite=${url_satellite}
+url.style=${url_style}

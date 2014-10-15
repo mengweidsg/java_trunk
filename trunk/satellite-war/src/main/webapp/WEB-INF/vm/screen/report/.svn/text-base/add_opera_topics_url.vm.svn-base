@@ -1,0 +1,99 @@
+#set($layout = "layout.vm") 
+#set($title="新增专题页面URL")
+#parse("VM_global_library.vm")
+            
+<div id="content-main">
+    <form name="managerForm" method="post" action="add_opera_topics_url.htm" id="managerForm">
+		<div class="inner">
+            <div class="i-t clearfix">
+                <span class="L f14b">新增专题页面URL</span>
+            </div>
+            <div class="i-m">
+               <div class="line"></div>
+               <div class="data-tab user-add">
+                   <table>
+                        <tr>
+                            <td style="text-align:right">专题页面URL：</td>
+                            <td><input type="text" id="operaTopicsUrl" name="operaTopicsUrl" value="" style="width: 217px;height: 16px;float:left;" /><div id="operaTopicsUrlTips" class="err undis">专题页面URL不能为空！</div></td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">预期统计时间范围：</td>
+                            <td><div style="float:left;"><input style="width: 100px;height: 16px;" readonly="readonly" type="text" id="from" name="effectStaDate" value=""/>&nbsp;-&nbsp;<input style="width: 100px;height: 16px;" readonly="readonly" type="text"  id="to" name="effectEndDate" value=""/></div><div id="effectDateTips" class="err undis">预期统计时间范围必须输入！</div></td>
+                            
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                              <input type="button" id="btnConfirm" value="提交" class="btn-gray71x26 mar-r5" />
+                            </td>
+                        </tr>
+                   </table>
+               </div>
+            </div>
+            <div class="i-b">
+            </div>
+        </div>
+    </form>
+</div>
+        
+<script type="text/javascript">
+var reportName = "$!{currentMenu.tableName}";
+var loginUser = "$!{dwUserInfo.userId}";
+$(function(){
+    //时间控件选择
+    var dates = jQuery( "#from, #to" ).datepicker({
+        changeMonth: true,
+        changeYear: true,
+        numberOfMonths: 1,
+        showAnim:  '', 
+        onSelect: function( selectedDate ) {
+            var option = this.id == "from" ? "minDate" : "maxDate",
+                instance = jQuery( this ).data( "datepicker" ),
+                date = jQuery.datepicker.parseDate(
+                    instance.settings.dateFormat ||
+                    jQuery.datepicker._defaults.dateFormat,
+                    selectedDate, instance.settings );
+            dates.not( this ).datepicker( "option", option, date );
+        },
+        onClose: function() {
+            if(!(/^\d{4}-\d{2}-\d{2}$/).test(this.value)){
+            this.value=''
+            }
+        }
+    });
+
+	//提交按钮
+    $("#btnConfirm").click(function(){
+		var errFlg = false;
+		if(jQuery.trim($("#operaTopicsUrl").val()) == ""){
+			$("#operaTopicsUrlTips").show();
+			errFlg = true;
+		} 
+		if(jQuery.trim($("#from").val()) == "" || jQuery.trim($("#to").val()) == ""){
+			$("#effectDateTips").show();
+			errFlg = true;
+		}
+		if(errFlg == false){
+			$("#managerForm").submit();
+		}
+	});
+
+	$("#operaTopicsUrl").bind({
+		focus:function(){
+			$("#operaTopicsUrlTips").hide();
+		},
+		blur:function(){
+			if(jQuery.trim($("#operaTopicsUrl").val()) == ""){
+				$("#operaTopicsUrlTips").show();
+			}
+			$("#operaTopicsUrl").val(jQuery.trim($("#operaTopicsUrl").val()));
+		}
+	});
+});
+
+#if("$!errMsg" != "")
+	alert("$!errMsg");
+#end
+</script>
+    </body>
+</html>

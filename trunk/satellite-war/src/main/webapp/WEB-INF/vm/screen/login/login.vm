@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" href="$!myres.getUrl('url.style','/bopsstyle/css/satellite/style.css').queryData('v',$myres.getSystem('style_version'))" rel="stylesheet" />
+<script type="text/javascript"  src="http://style.esunnyimg.com/style/script/jquery.min.js"></script>
+<title>登录-数据仓库</title>
+<style type="text/css">
+html{background:#dadada}
+</style>
+</head>
+
+<body style="background:#dadada;">
+<div class="login-wrap">
+	<div id="login">
+	<div class="login-l">
+    <span class="login-logo"></span>
+    <p>
+    ·统计分析改善网站，提高投资回报率。<br /><br />
+
+·统计分析希望让业务方吸引更多的访问者，帮助业务方将<br />
+  更多访问者变成客户。<br /><br />
+
+·使用统计分析可以了解访问者。这样，我们就可以合理地    <br />
+  改进网站设计、增加目标流量，并提高转化率和利润。<br />
+
+    </p>
+    </div>
+	<form action="$myres.getUrl("url.satellite")/login/do_login.htm" method="post">
+        <div class="login-r">
+            <span class="login-title">用户登录</span>
+            <span class="lr-t">用户名</span>
+        	<input type="text" class="input-name" name="userInfo.userId" id="textEmal"   #if($userInfo.userId) value="$!userInfo.userId" #else value="$!lastLoginEmail" #end maxlength="50" >
+            #if($errorMsg=="WRONG_EMAIL")<div id="erroracount" class="errortip">您输入的账号不存在！</div>#end
+            #if($errorMsg=="WRONG_STATUS")<div id="erroracount" class="errortip">您输入的账号没有被启用！</div>#end
+            <span class="lr-t">密码</span>
+        	<input type="password" class="input-pwd" name="userInfo.userPassword" id="textPsw"  value="" maxlength="50" >
+            #if($errorMsg=="WRONG_PASSWORD") <div id="errorpwd" class="errortip">您输入的密码不正确！</div> #end
+            <div class="login-btn">
+				<input name="" type="submit" value="登录" class="btn-gray65x33" />
+				<span class="login-remember"><input name="" type="checkbox" value="" />记住用户名</span>	
+            </div>
+        </div>
+    </form>
+    </div>
+</div>
+</body>
+</html>

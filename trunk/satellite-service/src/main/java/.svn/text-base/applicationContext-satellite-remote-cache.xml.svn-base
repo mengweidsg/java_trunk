@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd" default-autowire="byName">
+
+	<!-- 商铺前10的页面PV信息缓存 -->
+	<bean id="esiteTop10PagePvCache" parent="cacheTemplate">
+		<property name="ver" value="esiteTop10PagePv0330" />
+		<property name="expiry" value="1h" />
+	</bean>
+	
+	<!-- 商铺PV（指定日期）信息缓存 -->
+	<bean id="esitePvDayCache" parent="cacheTemplate">
+		<property name="ver" value="esitePvDay0330" />
+		<property name="expiry" value="1h" />
+	</bean>
+	
+	<!-- 商铺最近N天访问记录缓存 -->
+	<bean id="latestNVisitListCache" parent="cacheTemplate">
+		<property name="ver" value="latestNVisitList0330" />
+		<property name="expiry" value="1h" />
+	</bean>
+	
+	<!-- 用户的历史PV总量和峰值缓存 -->
+	<bean id="esiteVisitPeakTotalCache" parent="cacheTemplate">
+		<property name="ver" value="esiteVisitPeakTotal0330" />
+		<property name="expiry" value="6h" />
+	</bean>
+	
+	<!-- 商铺历史访问信息缓存 -->
+	<bean id="esiteHistoryVisitCache" parent="cacheTemplate">
+		<property name="ver" value="esiteHistoryVisit0330" />
+		<property name="expiry" value="6h" />
+	</bean>
+	
+	<!-- 首页信息缓存 -->
+	<bean id="homePageInfoCache" parent="cacheTemplate">
+		<property name="ver" value="homePageInfo0618" />
+		<property name="expiry" value="1h" />
+	</bean>
+</beans>

@@ -1,0 +1,10 @@
+#set($layout = "layout.vm") 
+#set($menuInfo.reportName="用户管理")
+#parse("VM_global_library.vm")
+
+<div id="content-main">
+
+<div>
+    <p style="font-size:20px;padding-left:100px;padding-top:50px;"><b >暂无权限，请联系管理员。</b></p>
+</div>
+</div>

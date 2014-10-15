@@ -1,0 +1,75 @@
+#set($layout = "layout.vm") 
+#set($menuInfo.reportName="用户管理")
+#parse("VM_global_library.vm")
+
+<div id="content-main">
+    <form name="managerForm" method="post" action="edit_dw_user.htm" id="managerForm">
+        <div class="inner">
+            <div class="i-t clearfix">
+                <span class="L f14b">用户管理 >#if(${query.id}&&$!{query.id}!="")设置#else 添加新用户#end</span>
+            </div>
+            <div class="i-m">
+               <div class="line"></div>
+               <div class="data-tab user-add">
+
+                   <table>
+                        <tr>
+                            <td >用户名：</td>
+                            <td>#if(${query.id}&&$!{query.id}!="")$!{query.userId}#else<input type="text" name="query.userId" class="input-text" value="$!{query.userId}" /><div class="err undis">用户名不能为空！</div>#end</td>
+                        </tr>
+                        <tr>
+                            <td>中文名：</td>
+                            <td>#if(${query.id}&&$!{query.id}!="")$!{query.userName}#else<input type="text" name="query.userName" class="input-text" value="$!{query.userName}" />#end</td>
+                        </tr>
+                        <tr>
+                            <td>部&nbsp;&nbsp;&nbsp;&nbsp;门：</td>
+                            <td>#if(${query.id}&&$!{query.id}!="")$!{query.departmentName}#else<input type="text" name="query.departmentName" class="input-text" value="$!{query.userName}" />#end</td>
+                        </tr>
+                        <tr>
+                            <td>角&nbsp;&nbsp;&nbsp;&nbsp;色：</td>
+                            <td>
+                              <label class="mar-r20"><input type="radio" name="query.userIdentity" value="1" #if(${query.userIdentity} && $!{query.userIdentity}=="1")checked="checked"#end class="mar-r5" />用户</label>
+                              <label><input type="radio" name="query.userIdentity" value="2" class="mar-r5" #if(!${query.userIdentity} || ($!{query.userIdentity}!="1" && $!{query.userIdentity}!="9"))checked="checked"#end />管理员</label>
+                              #if(${query.userIdentity} && $!{query.userIdentity}=="9")
+                                  <label><input type="radio" name="query.userIdentity" value="9" class="mar-r5" checked="checked" />超级管理员</label>
+                              #end
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                              <input type="button" value="确定" id="btnConfirm" class="btn-gray71x26 mar-r5" />
+                              <input type="button" value="取消" id="btnCancel" class="btn-gray71x26" />
+                            </td>
+                        </tr>
+                   </table>
+               </div>
+            </div>
+            <div class="i-b">
+            </div>
+        </div>
+        <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+        <input type="hidden" name="query.id" value="$!{query.id}" />
+    </form>
+</div>
+
+<form method="post" action="query_user_list.htm" id="backForm" name="backForm" >
+    <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+</form>
+<script >
+
+$(document).ready(function(){
+    // 确定按钮事件
+    $("#btnConfirm").bind({
+        click:function(){
+            $("#managerForm").submit();
+        }
+    });
+    // 取消按钮事件
+    $("#btnCancel").bind({
+        click:function(){
+            $("#backForm").submit();
+        }
+    });
+});
+</script>

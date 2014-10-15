@@ -1,0 +1,99 @@
+#set($layout = "layout.vm") ##选择布局页面
+#set($page_title="报表管理")
+#parse("VM_global_library.vm")
+
+<script type="text/javascript" src="$!myres.getUrl('url.style')/script/dialog/dialog-min.js"></script>
+<link type="text/css" rel="stylesheet" href="$!myres.getUrl('url.style')/script/dialog/dialog.css" />
+<div class="rightzong">
+  <div class="rightiframe" >
+<form name="managerForm" method="post" action="add_edit_report.htm" id="managerForm">
+	<table class="tableContainer" cellpadding="2" cellspacing="3" width="100%" >
+		<tbody>
+			<tr>
+    			<td align="left">
+    				
+    				<div >
+                        <font style="color:Red">#printFiledErrors($message)</font>
+    				</div>
+    			</td>
+    		</tr>
+    		<tr class="lanbg">
+    			<td align="left" valign="top">
+					<table class="tableContent tabto" cellspacing="1" width="100%" border="0">
+    					<tbody>
+    						<tr>
+    							<td>
+									表名：<input id="searchMenuTable" name="searchMenuTable"class="textBox" style="height: 15px; width: 120px;" type="text" value="$!{searchMenuTable}">
+    								菜单名称：<input id="searchMenuName" name="searchMenuName"class="textBox" style="height: 15px; width: 120px;" type="text" value="$!{searchMenuName}">
+    							</td>
+								
+    						</tr>
+							
+    						<tr>
+    							<td align="right">
+    								<input  value="查 询" id="btnSearch" class="button" type="button"  onclick="queryManage();">&nbsp;&nbsp;&nbsp;
+									<input name="btnSearch" value="新增" id="btnSearch" class="button" type="button" onclick="addNewReport();" >&nbsp;&nbsp;&nbsp;
+									<input name="btnSearch" value="导出xml文件" id="btnSearch" class="button" type="button" onclick="outXml();" >&nbsp;&nbsp;&nbsp;
+    							</td>
+    						</tr>
+    					</tbody>
+    				</table>
+    				<table class="dataGrid tab" style="border-color: Silver; border-width: 1px; position: static; width: 100%; height: 20px;" border="1" cellpadding="5" cellspacing="1" rules="all">
+    					<tbody>
+    						<tr class="dataGridHeader lanbg">
+    							<td>序列</td>
+								<td>表名</td>
+								<td>报表菜单名称</td>
+    							<td>链接url</td>
+    							<td>操作</td>
+    						</tr>
+							#foreach($meny in $menuList)
+    							<tr>
+    								#foreach($key in $keyList)
+    									<td>$!meny.get($key)</td>
+    								#end
+        							<td>
+                    					<a id="lnkShowDetail" style="color:Red;" href="$myres.getUrl('url.satellite')/report/add_edit_report.htm?reportId=$!meny.get('ID')" no="$!{userInfo.id}" >编辑</a>
+										<a id="lnkShowDetail" style="color:Red;" href="#" no="$!{userInfo.id}" onclick="deleteReportMenu('$!meny.get('TABLE_NAME')');">删除</a>
+									</td>
+        						</tr>
+							#end
+    					</tbody>
+    				</table>
+
+    			</td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<input type="hidden" id="reportId" name="reportId" value="$!{reportId}"/>
+	<input type="hidden" id="deleteTab" name="deleteTab" value="$!{deleteTab}"/>
+    <center>
+	#if($enuXml)
+		<textarea rows="30" cols="150">$enuXml</textarea>
+	#end	
+	</center>
+	
+</form>
+</div>
+ </div>
+ <script>
+function addNewReport() {
+	$("#reportId").attr("value","");
+	$("#managerForm").submit();
+}
+function queryManage() {
+	$("#managerForm").attr("action","query_manage_list.htm");
+	$("#managerForm").submit();
+}
+function deleteReportMenu(tab) {
+	$("#managerForm").attr("action","delete_report_menu.htm");
+	$("#deleteTab").attr("value",tab);
+	$("#managerForm").submit();
+}
+function outXml() {
+	$("#managerForm").attr("action","out_xml.htm");
+	$("#managerForm").submit();
+}
+</script> 
+

@@ -1,0 +1,20 @@
+K 14
+bugtraq:number
+V 4
+true
+K 13
+svn:externals
+V 222
+framework  svn://svn.esunny.com/esunnysource/dev/external/deploy/framework
+auto_config svn://svn.esunny.com/esunnysource/dev/external/deploy/auto_config
+bundle  svn://svn.esunny.com/esunnysource/dev/external/deploy/bundle
+
+K 10
+svn:ignore
+V 37
+.classpath
+.project
+.settings
+target
+
+END

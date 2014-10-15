@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.action.extension" value="htm" />
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<constant name="struts.devMode" value="false" />
+	<constant name="struts.velocity.toolboxlocation" value="WEB-INF/classes/velocity/toolbox.xml" />
+	<constant name="struts.velocity.configfile" value="WEB-INF/classes/velocity/velocity.properties" />
+	<constant name="struts.velocity.manager.classname"
+		value="org.apache.struts2.views.velocity.VelocityManager" />
+	<constant name="struts.multipart.maxSize" value="1000000000" />
+
+	<package name="esunny-default" abstract="true" extends="struts-default">
+		<result-types>
+			<result-type name="velocity"
+				class="com.esunny.platform.util.web.VelocityLayoutResult" default="true" />
+		</result-types>
+
+        
+		<interceptors>
+		    <interceptor name="esunnySessionInterceptor" class="com.esunny.platform.web.handler.interceptor.EsunnySessionInterceptor">
+		       <param name="includeUrls">
+		          */*.htm
+		       </param>
+		    </interceptor>
+			<interceptor name="satelliteInterceptor"
+				class="com.esunny.satellite.web.action.interceptor.SatelliteInterceptor">
+				<param name="includeUrls">
+					/report*/*.htm,
+					/tool*/*.htm,
+					/account/*.htm
+				</param>
+				<param name="excludeUrls">
+					/login/*.htm
+				</param>
+			</interceptor>
+			
+			
+			<interceptor-stack name="esunnyBasicStack">
+				<interceptor-ref name="basicStack" />
+				<interceptor-ref name="validation" />
+				<interceptor-ref name="esunnySessionInterceptor" />
+				<interceptor-ref name="satelliteInterceptor" />
+			</interceptor-stack>
+			
+			<interceptor-stack name="sz">
+				<interceptor-ref name="basicStack" />
+				<interceptor-ref name="validation" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="esunnyBasicStack" />
+
+		<global-results>
+			<result name="login" type="redirect">${loginUrl}</result>
+			<result name="error" type="chain">errorAction</result>
+			<result name="message" type="velocity">/system/message.vm</result>
+			<result name="index" type="redirect">${loginUrl}</result>
+			<result name="authorityDeny" type="velocity">/system/authority_deny.vm</result>
+		</global-results>
+	</package>
+
+	<include file="com/esunny/satellite/web/action/login/struts-login.xml"></include>
+	<!-- 报表 -->
+	<include file="com/esunny/satellite/web/action/report/struts-report.xml"></include>
+	<include file="com/esunny/satellite/web/action/tool/struts-tool.xml"></include>
+	<include file="com/esunny/satellite/web/action/account/struts-account.xml"></include>
+</struts>

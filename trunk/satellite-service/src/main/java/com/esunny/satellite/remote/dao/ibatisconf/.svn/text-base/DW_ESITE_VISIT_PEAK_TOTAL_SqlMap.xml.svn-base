@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DW_ESITE_VISIT_PEAK_TOTAL" >
+  <typeAlias alias="DwEsiteVisitPeakTotal" type="com.esunny.satellite.remote.entity.DwEsiteVisitPeakTotal" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="AND" property="userId"> user_id = #userId:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="pvAll"> pv_all = #pvAll:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="visitAll"> visit_all = #visitAll:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="allStatDate"> all_stat_date = #allStatDate:DATE# </isNotNull>
+      <isNotNull prepend="AND" property="pvPeak"> pv_peak = #pvPeak:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="visitPeak"> visit_peak = #visitPeak:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="datePeak"> date_peak = #datePeak:DATE# </isNotNull>
+      <isNotEmpty prepend="AND" property="info"> info = #info:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="gmtCreate"> gmt_create = #gmtCreate:DATE# </isNotNull>
+    </dynamic>
+  </sql>
+
+  <sql id="Base_Column_List" >
+    user_id as userId, pv_all as pvAll, visit_all as visitAll, all_stat_date as allStatDate, 
+    pv_peak as pvPeak, visit_peak as visitPeak, date_peak as datePeak, info, gmt_create as gmtCreate
+  </sql>
+
+  <select id="selectPeakTotalByUserId" resultClass="DwEsiteVisitPeakTotal" parameterClass="Long" >
+    select
+    <include refid="DW_ESITE_VISIT_PEAK_TOTAL.Base_Column_List" />
+    from dw_esite_visit_peak_total
+    where user_id = #value#
+  </select>
+
+</sqlMap>

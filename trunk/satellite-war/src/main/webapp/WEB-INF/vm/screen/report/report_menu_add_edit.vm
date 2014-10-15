@@ -1,0 +1,186 @@
+#set($layout = "layout.vm") ##选择布局页面
+#set($page_title="报表管理-新增编辑报表")
+<form method="post" action="" id="editForm">
+<div class="rightzong">
+    <div class="rightiframe" >
+    <table class="tab">
+    	<tbody>
+			
+			<tr>
+        		 <td style="width:100px">&nbsp;</td>	
+        		 <td align="left" class="pad-l10"><font size = "3" color="red">#sactionerror</font></td>
+    		</tr>
+            <tr>
+    		 <td style="width:100px" align = "left">菜单中显示的名字<font size = "3" color="red">*</font></td>	
+    		 <td align="left" class="pad-l10">
+                <input id="menuName" name="menuName" class="textBox" style="height: 15px; width: 200px;" type="text" value="$!{menuName}" >
+				父菜单<font size = "3" color="red">*</font>：
+				<select id='parentId' name='parentId'>
+					<option value = "" ></option>
+					#foreach($parentMap in ${parentIdList})
+						<option value = "$!parentMap.get('ID')" #if(${parentId} == $!parentMap.get('ID'))selected #end >$!parentMap.get('NAME')</option>
+					#end
+				</select>
+				菜单级别：3
+        	 </td>
+    		</tr>
+            <tr>
+                <td style="width:100px" align = "left">所对应的表名<font size = "3" color="red">*</font></td>
+    			 <td align="left" class="pad-l10">
+
+				#if($reportId && $reportId != "")
+					$!{menuTable}
+					<input id="menuTable" name="menuTable" class="textBox" style="height: 15px; width: 200px;" type="hidden" value="$!{menuTable}" >
+				#else
+					<input id="menuTable" name="menuTable" class="textBox" style="height: 15px; width: 200px;" type="text" value="$!{menuTable}">
+					&nbsp;&nbsp;&nbsp;&nbsp;							
+					<input id="mTable"  class="but-bg2" type="button" value="确定" onclick="getTableColumns();">
+				#end
+        	 </td>
+        	</tr>
+
+			<tr>
+                <td style="width:100px" align = "left">检索条件信息</td>
+    			 <td align="left" class="pad-l10">
+                 <table width="100%">
+					<tr >
+						<td>&nbsp;</td>
+						<td align="center">列名</td>
+						<td align="center">显示的名称<font size = "3" color="red">*</font></td>
+						<td align="center">枚举类表名</td>
+						<td align="center">是否完全匹配<font size = "3" color="red">*</font></td>
+						<td align="center">类型<font size = "3" color="red">*</font></td>
+                    </tr>
+
+					#foreach($cloumn in ${cloumnsList})
+						<tr>
+							#if($conditionBeanMap.get($cloumn.get('COLUMN_NAME')))
+								#set($bean=$conditionBeanMap.get($cloumn.get('COLUMN_NAME')))
+							#else
+								#set($bean="")
+							#end
+							<td ><input type="checkbox" name ="searchConditionArr" value='$cloumn.get("COLUMN_NAME")' #if($bean != "")checked#end></td>
+							<td align="center">$cloumn.get("COLUMN_NAME")</td>
+							<td align="center"><input type="text" id='search_$cloumn.get("COLUMN_NAME")_display' name='search_$cloumn.get("COLUMN_NAME")_display' value="$!bean.columnDisplayName"></td>
+
+							<td align="center"><input type="text" id='search_$cloumn.get("COLUMN_NAME")_enumtable' name='search_$cloumn.get("COLUMN_NAME")_enumtable' value="$!bean.enumTableName"></td>
+							<td align="center">
+								<select id='search_$cloumn.get("COLUMN_NAME")_complete' name='search_$cloumn.get("COLUMN_NAME")_complete'>
+									<option value = "" ></option>
+									<option value = "1" #if(${bean.isCompleteMatch} == 1)selected#end>是</option>
+                                    <option value = "0" #if(${bean.isCompleteMatch} == 0)selected#end>否 </option>
+								</select>
+							</td>
+							<td  align="center" > 
+								<select id='search_$cloumn.get("COLUMN_NAME")_type' name='search_$cloumn.get("COLUMN_NAME")_type'>
+									<option value = "" ></option>
+									<option value = "1" #if(${bean.inputType} == 1)selected#end >文本框</option>
+                                    <option value = "2" #if(${bean.inputType} == 2)selected#end >下拉框 </option>
+        							<option value = "3" #if(${bean.inputType} == 3)selected#end >时间控件</option>
+								</select>
+							</td>
+                        </tr>
+					#end
+				 </table>
+        	 </td>
+        	</tr>
+			<tr>
+                <td style="width:100px" align = "left">url<font size = "3" color="red">*</font></td>
+    			 <td align="left" class="pad-l10">
+                <input id="menuUrl" name="menuUrl" class="textBox" style="height: 15px; width: 600px;" type="text" value="$!{menuUrl}">
+        	 </td>
+        	</tr>
+			<tr>
+                <td style="width:100px" align = "left">查询结果显示信息</td>
+    			 <td align="left" class="pad-l10">
+                 <table width="100%">
+					<tr >
+						<td>&nbsp;</td>
+						<td align="center">列名</td>
+						<td align="center">显示的名称*</td>
+						<td align="center">是否枚举类</td>
+						<td align="center">枚举类表名</td>
+						<td align="center">是否累加（sum）</td>
+						<td align="center">是否GROUPBY列</td>
+						<td align="center">显示顺序</td>
+                    </tr>
+					#foreach($cloumn in ${cloumnsList})
+						<tr>
+							#if($displayColumnBenMap.get($cloumn.get('COLUMN_NAME')))
+								#set($bean=$displayColumnBenMap.get($cloumn.get('COLUMN_NAME')))
+							#else
+								#set($bean="")
+							#end
+							<td ><input type="checkbox" name ="displayColumnArr" value='$cloumn.get("COLUMN_NAME")' #if($bean != "")checked#end></td>
+							<td align="center">$cloumn.get("COLUMN_NAME")
+							<input type="hidden" id='display_$cloumn.get("COLUMN_NAME")_columndatatype' name='display_$cloumn.get("COLUMN_NAME")_columndatatype' value="$cloumn.get('DATA_TYPE')"/>
+							</td>
+							<td align="center"><input type="text" id='display_$cloumn.get("COLUMN_NAME")_display' name='display_$cloumn.get("COLUMN_NAME")_display' value="$!bean.columnDisplayName"></td>
+							<td  align="center" >
+								<select id='display_$cloumn.get("COLUMN_NAME")_isenum' name='display_$cloumn.get("COLUMN_NAME")_isenum'>
+									<option value = "" ></option>
+                                    <option value = "1" #if(${bean.isEnum} == 1)selected#end >是 </option>
+        							<option value = "0" #if(${bean.isEnum} == 0)selected#end >否</option>
+								</select>
+							</td>
+							<td align="center"><input type="text" id='display_$cloumn.get("COLUMN_NAME")_enumtable' name='display_$cloumn.get("COLUMN_NAME")_enumtable' value="$!bean.enumTableName"></td>
+							<td  align="center" >
+								<select id='display_$cloumn.get("COLUMN_NAME")_issum' name='display_$cloumn.get("COLUMN_NAME")_issum'>
+									<option value = "" ></option>
+                                    <option value = "1" #if(${bean.isSum} == 1)selected#end >是 </option>
+        							<option value = "0" #if(${bean.isSum} == 0)selected#end >否</option>
+								</select>
+							</td>
+							<td  align="center" >
+								<select id='display_$cloumn.get("COLUMN_NAME")_isgroupby' name='display_$cloumn.get("COLUMN_NAME")_isgroupby'>
+									<option value = "" ></option>
+                                    <option value = "1" #if(${bean.isGroupBy} == 1)selected#end >是 </option>
+        							<option value = "0" #if(${bean.isGroupBy} == 0)selected#end >否</option>
+								</select>
+							</td>
+							<td align="center">
+								<select id='display_$cloumn.get("COLUMN_NAME")_sort' name='display_$cloumn.get("COLUMN_NAME")_sort'>
+									<option value = ""></option>
+									#foreach($cloumn in ${cloumnsList})
+										#set($index=${velocityCount}+1)
+										<option value = "$index" #if(${bean.sort} == $index)selected#end>$index</option>
+									#end
+								</select>
+							</td>
+                        </tr>
+					#end
+				 </table>
+        	 </td>
+        	</tr>		
+    		<tr>
+    			<td></td>	
+    			<td align="left" class="pad-l10">
+					<input type="button" value="提交" id="btn" class="but-bg2" onclick="doSubmit();"/>&nbsp;&nbsp; 
+					<input type="button" value="返回" id="btnBack" class="but-bg2 mar-l10" onclick="returnPage();"/>
+    			</td>
+    		</tr>
+    	</tbody>
+    </table>
+    </div>
+</div>
+<input type="hidden" id="reprotId" name="reportId" value="${reportId}">
+</form>
+
+<script type="text/javascript">
+// 点击返回按钮
+function returnPage(){
+	$("#editForm").attr("action","query_manage_list.htm");
+	$("#editForm").submit();
+}
+
+// 点击确定按钮 查看表的列
+function getTableColumns(){
+	$("#editForm").attr("action","query_table_columns.htm");
+	$("#editForm").submit();
+}
+function doSubmit(){
+	$("#editForm").attr("action","submit_add_edit.htm");
+	$("#editForm").submit();
+}
+
+</script>

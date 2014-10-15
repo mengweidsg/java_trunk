@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DW_ESITE_PAGE_PV_INFO" >
+  <typeAlias alias="DwEsitePagePvInfo" type="com.esunny.satellite.remote.entity.DwEsitePagePvInfo" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotEmpty prepend="AND" property="url"> url = #url:VARCHAR# </isNotEmpty>
+      <isNotNull prepend="AND" property="userId"> user_id = #userId:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="pv"> pv = #pv:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="lastLogId"> last_log_id = #lastLogId:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="gmtCreate"> gmt_create = #gmtCreate:DATE# </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    url, user_id as userId, pv, last_log_id as lastLogId, gmt_create as gmtCreate
+  </sql>
+  
+  <select id="queryTop10PagePvInfoByUserId" resultClass="DwEsitePagePvInfo" parameterClass="Long" >
+    select * from (
+      select
+      <include refid="DW_ESITE_PAGE_PV_INFO.Base_Column_List" />
+    <![CDATA[
+      from dw_esite_page_pv_info
+      where user_id = #value# order by pv desc
+    ) where rownum <= 10
+    ]]>
+  </select>
+
+</sqlMap>

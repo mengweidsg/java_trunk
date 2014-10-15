@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
+	default-autowire="byName">
+
+	<bean id="remoteSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/satelliteRemoteSqlMapConfig.xml" />
+	</bean>
+
+	<!-- dao base -->
+	<bean id="remoteDaoBase" class="com.esunny.platform.dao.SqlMapDaoBase"
+		abstract="true">
+		<property name="sqlMapClient" ref="remoteSqlMapClient" />
+	</bean>
+
+	<!-- 商铺页面PV信息Dao -->
+	<bean id="dwEsitePagePvInfoDao"
+		class="com.esunny.satellite.remote.dao.impl.DwEsitePagePvInfoDaoImpl"
+		parent="remoteDaoBase">
+	</bean>
+
+	<!-- 商铺PV信息（按天）Dao -->
+	<bean id="dwEsitePvDayDao"
+		class="com.esunny.satellite.remote.dao.impl.DwEsitePvDayDaoImpl"
+		parent="remoteDaoBase">
+	</bean>
+
+	<!-- 商铺历史访问信息的Dao -->
+	<bean id="dwEsiteVisitInfoDao"
+		class="com.esunny.satellite.remote.dao.impl.DwEsiteVisitInfoDaoImpl"
+		parent="remoteDaoBase">
+	</bean>
+
+	<!-- 商铺PV总量和峰值信息的Dao -->
+	<bean id="dwEsiteVisitPeakTotalDao"
+		class="com.esunny.satellite.remote.dao.impl.DwEsiteVisitPeakTotalDaoImpl"
+		parent="remoteDaoBase">
+	</bean>
+
+	<!-- 首页信息的Dao -->
+	<bean id="dwHomePageShowInfoDao"
+		class="com.esunny.satellite.remote.dao.impl.DwHomePageShowInfoDaoImpl"
+		parent="remoteDaoBase">
+	</bean>
+</beans>

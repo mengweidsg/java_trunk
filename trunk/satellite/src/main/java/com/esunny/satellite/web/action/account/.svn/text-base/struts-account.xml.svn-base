@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="account" namespace="/account" extends="esunny-default">
+
+		<action name="show_user_manager" method="showInit" class="userManageAction">
+			<result name="success" type="velocity">/screen/account/dw_user_manager.vm</result>
+		</action>
+		
+		<action name="query_user_list" method="queryUserList" class="userManageAction">
+			<result name="success" type="velocity">/screen/account/dw_user_manager.vm</result>
+		</action>
+		
+		<action name="show_edit_dw_user" method="showEditDwUser" class="userManageAction">
+			<result name="success" type="velocity">/screen/account/edit_dw_user.vm</result>
+		</action>
+		
+		<action name="edit_dw_user" method="editDwUser" class="userManageAction">
+			<result name="success" type="redirect">/account/query_user_list.htm</result>
+		</action>
+		
+		<action name="delete_dw_user" method="deleteDwUser" class="userManageAction">
+			<result name="success" type="redirect">/account/query_user_list.htm</result>
+		</action>
+		
+		<action name="show_edit_dw_password" method="showEditUserPassword" class="userManageAction">
+			<result name="success" type="velocity">/screen/account/edit_dw_password.vm</result>
+		</action>
+		
+		<action name="edit_dw_password" method="editUserPassword" class="userManageAction">
+			<result name="input" type="velocity">/screen/account/edit_dw_password.vm</result>
+			<result name="success" type="redirect">/account/query_user_list.htm</result>
+		</action>
+		
+		<action name="show_report_authority_manager" method="showUserReportManager" class="userAuthorityAction">
+			<result name="success" type="velocity">/screen/account/report_authority_manager.vm</result>
+		</action>
+		
+		<action name="edit_user_report_authority" method="editUserReportAuthority" class="userAuthorityAction">
+			<result name="success" type="redirect">/account/query_user_list.htm</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+<settings cacheModelsEnabled="true" enhancementEnabled="false" lazyLoadingEnabled="false" maxRequests="3000" maxSessions="3000" maxTransactions="3000" useStatementNamespaces="true"/>
+
+	<!-- dw ibatis conf -->
+	<sqlMap resource="com/esunny/satellite/remote/dao/ibatisconf/DW_ESITE_PAGE_PV_INFO_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/remote/dao/ibatisconf/DW_ESITE_PV_DAY_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/remote/dao/ibatisconf/DW_ESITE_VISIT_INFO_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/remote/dao/ibatisconf/DW_ESITE_VISIT_PEAK_TOTAL_SqlMap.xml"/>
+	<sqlMap resource="com/esunny/satellite/remote/dao/ibatisconf/DW_HOME_PAGE_SHOW_INFO_SqlMap.xml"/>
+</sqlMapConfig>

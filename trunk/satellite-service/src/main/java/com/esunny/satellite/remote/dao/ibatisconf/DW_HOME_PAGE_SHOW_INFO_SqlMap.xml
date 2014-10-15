@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DW_HOME_PAGE_SHOW_INFO" >
+  <typeAlias alias="DwHomePageShowInfo" type="com.esunny.satellite.remote.entity.DwHomePageShowInfo" />
+
+  <sql id="Base_Column_List" >
+    time, member_reg_daily_num as memberRegDailyNum, publish_sell_offer_daily_num as publishSellOfferDailyNum, 
+    publish_buy_offer_daily_num as publishBuyOfferDailyNum, gmt_create as gmtCreate
+  </sql>
+  
+  <select id="selectHomePageInfoByTime" resultClass="DwHomePageShowInfo" parameterClass="java.util.Date" >
+    select
+    <include refid="DW_HOME_PAGE_SHOW_INFO.Base_Column_List" />
+    from dw_home_page_show_info
+    where time = trunc(#value#, 'dd')
+  </select>
+
+</sqlMap>

@@ -1,0 +1,44 @@
+#set($layout = "login/layout.vm") ##选择布局页面
+#set($page_title="登录页面")
+#set($isEmailFieldError = $fieldErrors.get("emailLoginVo.email") && $fieldErrors.get("emailLoginVo.email").size()>0)
+#set($isPasswordFieldError = $fieldErrors.get("emailLoginVo.password") && $fieldErrors.get("emailLoginVo.password").size()>0)
+	<link href="$myres.getUrl("url.style")/bopsstyle/css/login.css" rel="stylesheet" type="text/css" />
+    	<form action="$myres.getUrl("url.satellite")/login/do_login.htm" method="post">
+    	<input type="hidden" name="done" value="$!done">
+    	<div class="login">
+			<div>
+        	<p style=" margin-top:30px; margin-bottom:20px;">
+				<em width="62" class="col">帐号：</em><input type="text" class="inp put1" name="userInfo.userId" id="textEmal"   #if($userInfo.userId) value="$!userInfo.userId" #else value="$!lastLoginEmail" #end maxlength="50" size="28"    #if($errorMsg=="WRONG_EMAIL" || $isEmailFieldError) class="text-input error" #else class="text-input" #end >
+            </p>
+            #if($errorMsg=="WRONG_EMAIL")<div id="erroracount" class="errortip">您输入的账号不存在！</div>#end
+            #if($errorMsg=="WRONG_STATUS")<div id="erroracount" class="errortip">您输入的账号没有被启用！</div>#end
+			#if($isEmailFieldError)<div id="erroracount" class="errortip">$fieldErrors.get("emailLoginVo.email").get(0)</div> #end
+            <p style="margin-bottom:20px;">
+				<em width="62" class="col">密码：</em><input type="password"   class="inp put2"  name="userInfo.userPassword" id="textPsw"  value="$!userInfo.userPassword" maxlength="50" size="28"   #if($errorMsg=="WRONG_PASSWORD" || $isPasswordFieldError) class="text-input error" #else class="text-input" #end >
+            </p>
+            #if($errorMsg=="WRONG_PASSWORD") <div id="errorpwd" class="errortip">您输入的密码不正确！</div> #end
+			#if($isPasswordFieldError)<div id="errorpwd" class="errortip">$fieldErrors.get("emailLoginVo.password").get(0)</div> #end
+            <p class="p2">
+                <input type="submit" value="" class="but" />
+            </p><input id="yzm" type="hidden"  value="$myres.getUrl("url.satellite")/checkCode.htm?clientSessionId=$!request.getSession(true).getId()&t="/>
+    	</div>
+			</div>
+			 <div class="s-f"></div>
+    	</form>
+<script>
+function changcodeImg(){
+                	var checkcode = $("#checkcodeImg");
+                	var yzm = $("#yzm").val();
+                	var t=new Date().getTime();
+                	checkcode[0].src=yzm+t;
+                }
+jQuery(function(){
+	$("#textEmal").bind("click",function(){
+	$("#erroracount").height(0).css({overflow:"hidden",border:"none"});
+	})
+	$("#textPsw").bind("click",function(){
+	$("#errorpwd").height(0).css({overflow:"hidden",border:"none"});
+	})
+})
+				
+</script>

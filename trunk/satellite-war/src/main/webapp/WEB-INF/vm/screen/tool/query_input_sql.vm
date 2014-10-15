@@ -1,0 +1,82 @@
+#set($layout = "layout.vm") 
+#set($title=${currentMenu.name})
+#parse("VM_global_library.vm")
+
+<div id="content-main">
+	<form name="managerForm" method="post" action="query_input_sql.htm" id="managerForm">
+    	<div class="inner">
+        	<div class="i-t clearfix">
+            	<span class="L f14b">$!menuInfo.reportName </span> 
+				<span class="R"><a href="javascript:;;" id="lnkExport">下载</a></span>
+            </div>
+            <div class="i-m">
+            	<div class="data-tab">
+					<textarea name="sql" style="width: 1163px; height: 100px;">$!{sql}</textarea>
+					<input type="hidden" id="sqlHidden" name="sqlHidden" value="$!{sql}"/>
+				<br/><input type="button" class="btn-gray52x26" id="lnkSearch" value="查询"/>
+                <table width="100%" id="tblData" >
+                  <tr>
+						#foreach($displayColumn in $displayColumnInfo)
+								<th>$displayColumn.columnDisplayName</th>
+							#end
+                  </tr>
+                  
+                	#foreach($rs in $reportResult)
+                								<tr #if($velocityCount % 2 == 1) class="type1" #end>
+                									#foreach($displayColumn in $displayColumnInfo)
+                										#if($displayColumn.isEnum == 1)
+                											<td>
+                												#if($displayEnumMap.get($displayColumn.columnName).get($!rs.get($displayColumn.columnName)))
+                													$displayEnumMap.get($displayColumn.columnName).get($!rs.get($displayColumn.columnName))
+                												#else
+                													$!rs.get($displayColumn.columnName)
+                												#end
+                											</td>
+                											#else
+                											<td>$!rs.get($displayColumn.columnName)</td>
+                										#end
+                									#end
+                								</tr>
+                							#end
+                </table>                
+</div>
+          </div>
+            <div class="i-b">
+			</div>
+        </div>
+	<!-- 导出excel时的检索参数 -->
+	#foreach($condition in $searchCondition)
+		<input id="excel_$condition.get("COLUMN_NAME")" name="excel_$condition.get("COLUMN_NAME")" type="hidden" value="$!pageValueMap.get($condition.get('COLUMN_NAME'))">
+	#end
+	<input type="hidden"  id="reportTableName" name= "reportTableName" value="SQL_SEARCH"/>
+	<input type="hidden" id="menuRootId" name="menuRootId" value="$!menuRootId"/>
+	</form>
+    </div>
+
+<script type="text/javascript">
+$("#content-main").height($("#managerForm").height()>1000?"auto":"1000px")
+#if($errorMessage && $!errorMessage != "")
+	alert('$!errorMessage');
+#end
+
+$(function(){
+	// 查询
+	$("#lnkSearch").click(function(){
+		$("#managerForm").attr("action", "query_input_sql.htm");
+    	$("#managerForm").submit();
+	});
+	// 导出
+	$("#lnkExport").click(function(){
+		exportExcel();
+	});
+
+	$("#tblData tr:gt(0)").hover(function(){$(this).addClass('type2');}, function(){$(this).removeClass('type2');})
+});
+
+function exportExcel(){
+    $("#managerForm").attr("action", "export_excel.htm");
+    $("#managerForm").submit();
+}
+</script>
+</body>
+</html>

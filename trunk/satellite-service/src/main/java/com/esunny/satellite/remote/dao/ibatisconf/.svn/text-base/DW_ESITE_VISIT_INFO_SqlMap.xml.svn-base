@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="DW_ESITE_VISIT_INFO" >
+  <typeAlias alias="DwEsiteVisitInfo" type="com.esunny.satellite.remote.entity.DwEsiteVisitInfo" />
+  <sql id="Base_Where" >
+    <dynamic prepend="where" >
+      <isNotNull prepend="AND" property="time"> time = #time:DATE# </isNotNull>
+      <isNotNull prepend="AND" property="userId"> user_id = #userId:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="pv"> pv = #pv:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="uv"> uv = #uv:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="visit"> visit = #visit:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="timesPerVisit"> times_per_visit = #timesPerVisit:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="stayRec"> stay_rec = #stayRec:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="stayPageCount"> stay_page_count = #stayPageCount:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="timePerPv"> time_per_pv = #timePerPv:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="visitOnce"> visit_once = #visitOnce:DECIMAL# </isNotNull>
+      <isNotNull prepend="AND" property="skipRate"> skip_rate = #skipRate:DECIMAL# </isNotNull>
+    </dynamic>
+  </sql>
+  
+  <sql id="Base_Column_List" >
+    time, user_id as userId, pv, uv, visit, times_per_visit as timesPerVisit, stay_rec as stayRec, 
+    stay_page_count as stayPageCount, time_per_pv as timePerPv, visit_once as visitOnce, 
+    skip_rate as skipRate
+  </sql>
+  
+  <select id="queryLatestNVisitList" resultClass="DwEsiteVisitInfo" parameterClass="map" >
+    select
+    <include refid="DW_ESITE_VISIT_INFO.Base_Column_List" />
+    <![CDATA[ 
+      from dw_esite_visit_info t
+     where t.user_id = #USERID#
+       and t.time >= trunc(sysdate, 'dd') - #NUM#
+     order by time desc
+    ]]>
+  </select>
+</sqlMap>

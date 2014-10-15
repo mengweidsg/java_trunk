@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+	"http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="report" namespace="/report" extends="esunny-default">
+
+		<action name="query_list_init" method="showInit" class="reportCommonQueryAction">
+			<result name="success" type="velocity">/screen/report/report_detail.vm</result>
+		</action>
+		
+		<action name="query_list_*" method="queryList" class="reportCommonQueryAction">
+			<result name="success" type="velocity">/screen/report/report_detail.vm</result>
+		</action>
+		
+		<action name="query_manage_list" method="queryList" class="reportManagerAction">
+			<result name="success" type="velocity">/screen/report/report_manager.vm</result>
+		</action>
+		<!-- 删除报表-->
+		<action name="delete_report_menu" method="deleteReportMenu" class="reportManagerAction">
+			<result name="success" type="velocity">/screen/report/report_manager.vm</result>
+		</action>
+		<!-- 导出xml文件-->
+		<action name="out_xml" method="outXml" class="reportManagerAction">
+			<result name="success" type="velocity">/screen/report/report_manager.vm</result>
+		</action>		
+		
+		<!-- 新增 编辑 报表检索条件和现实列名 -->
+		<action name="add_edit_report" method="pageInit" class="reportEditAction">
+			<result name="success" type="velocity">/screen/report/report_menu_add_edit.vm</result>
+		</action>
+		<!-- 查看表列 -->
+		<action name="query_table_columns" method="queryTableCloumns" class="reportEditAction">
+			<result name="success" type="velocity">/screen/report/report_menu_add_edit.vm</result>
+		</action>
+		<!-- 新增和修改报表    提交 -->
+		<action name="submit_add_edit" method="submitRreprot" class="reportEditAction">
+			<result name="error" type="velocity">/screen/report/report_menu_add_edit.vm</result>
+			<result name="success" type="redirect">query_manage_list.htm</result>
+		</action>
+		
+		<action name="export_excel" method="exportExcelFile" class="reportCommonQueryAction">
+		</action>
+		
+		<action name="query_real_time_init" method="showInit" class="reportRealTimeQueryAction">
+			<result name="success" type="velocity">/screen/report/report_real_time_detail.vm</result>
+		</action>
+		
+		<action name="query_real_time_user_order_period" method="queryRealTimeList" class="userOrderPeriodAction">
+			<result name="success" type="velocity">/screen/report/report_real_time_detail.vm</result>
+		</action>
+		
+		<action name="query_real_time_keyword_reg_detail" method="queryRealTimeList" class="sourceKeywordQueryAction">
+			<result name="success" type="velocity">/screen/report/keyword_reg_detail.vm</result>
+		</action>
+		
+		<action name="query_real_time_*_keyword_report_visit" method="queryRealTimeList" class="reportRealTimeQueryAction">
+			<result name="success" type="velocity">/screen/report/keyword_report_visit.vm</result>
+		</action>
+		
+		<action name="query_real_time_*" method="queryRealTimeList" class="reportRealTimeQueryAction">
+			<result name="success" type="velocity">/screen/report/report_real_time_detail.vm</result>
+		</action>
+		
+		<action name="show_add_opera_topics_url" method="showAddOperaTopicsUrl" class="operationalTopicsUrlAction">
+			<result name="success" type="velocity">/screen/report/add_opera_topics_url.vm</result>
+		</action>
+		
+		<action name="add_opera_topics_url" method="addOperaTopicsUrl" class="operationalTopicsUrlAction">
+			<result name="success" type="velocity">/screen/report/add_opera_topics_url.vm</result>
+		</action>
+	</package>
+</struts>

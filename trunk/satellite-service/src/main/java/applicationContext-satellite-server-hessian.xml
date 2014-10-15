@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+			http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean name="/esiteVisitInfoService"
+		class="com.esunny.platform.util.remote.hessian.MultipleSecureHessianServiceExporter">
+		<property name="serviceInterface"
+			value="com.esunny.platform.satellite.service.interf.EsiteVisitInfoService" />
+		<property name="service">
+			<ref bean="esiteVisitInfoService" />
+		</property>
+		<property name="secureKeyList">
+			<list>
+				<value>FD562FDSA2423KL23HKL67224JF</value>
+			</list>
+		</property>
+		<property name="timeout" value="30000" />
+		<property name="allowedClients" value="127.0.0.1,192.168.1.1-192.168.1.255,192.168.2.1-192.168.2.255,192.168.3.1-192.168.3.255" />
+	</bean>
+	
+	<bean name="/satelliteRemoteService"
+		class="com.esunny.platform.util.remote.hessian.MultipleSecureHessianServiceExporter">
+		<property name="serviceInterface"
+			value="com.esunny.platform.satellite.service.interf.SatelliteRemoteService" />
+		<property name="service">
+			<ref bean="satelliteRemoteService" />
+		</property>
+		<property name="secureKeyList">
+			<list>
+				<value>FD562FDSA2423KL23HKL67224JF</value>
+			</list>
+		</property>
+		<property name="timeout" value="30000" />
+		<property name="allowedClients" value="127.0.0.1,192.168.1.1-192.168.1.255,192.168.2.1-192.168.2.255,192.168.3.1-192.168.3.255" />
+	</bean>
+</beans>

@@ -1,0 +1,24 @@
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="40%">共$!{query.totalCount}条纪录，当前第$!{query.pageNo}/$!{query.pageCount}页，每页$!{query.pageSize}条纪录</td>
+    <td width="60%"><span>#if(${query.firstPage})首页&nbsp;  #else <a href="javascript:;" onclick="gotoPage('1');" class="lang">首页</a>&nbsp; #end
+				#if(${query.hasPrevPage})<a href="javascript:;" onclick="gotoPage('$!{query.prePage}');" class="lang">上一页</a>&nbsp; #else 上一页&nbsp; #end
+				#if(${query.hasNextPage})<a  href="javascript:;" onclick="gotoPage('$!{query.nextPage}');" class="lang">下一页</a>&nbsp; #else 下一页&nbsp; #end
+				#if(${query.lastPage})末页&nbsp; #else <a href="javascript:;" onclick="gotoPage('$!{query.pageCount}');" class="lang">末页</a>&nbsp; #end
+				转到<input type="text" id="selectPageNo" value="$!{query.pageNo}" class="tb_input" style="width:20px;height:12px;text-align:center;"/>
+				<img src="$theme_dir/images/005.gif" onclick="selectPage();"/></span>
+	</td>
+	<input type="hidden" id="query_pageSize" name="query.pageSize" value="$!{query.pageSize}" />
+    <input type="hidden" id="query_pageNo" name="query.pageNo" value="$!{query.pageNo}" />
+  </tr>
+</table>
+<script type="text/javascript">
+function selectPage(){
+	document.getElementById('query_pageNo').value=document.getElementById('selectPageNo').value;
+	document.getElementById('queryListForm').submit();
+}
+function gotoPage(pg){
+	document.getElementById('query_pageNo').value = pg;
+	document.getElementById('queryListForm').submit();
+}
+</script>

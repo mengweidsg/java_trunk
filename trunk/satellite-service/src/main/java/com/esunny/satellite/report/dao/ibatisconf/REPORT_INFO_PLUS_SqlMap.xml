@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="REPORT_INFO_PLUS" >
+  <typeAlias alias="ReportInfoPlus" type="com.esunny.satellite.report.entity.ReportInfoPlus" />
+
+  <sql id="Base_Column_List" >
+    id, table_name as tableName, need_index as needIndex, sort_column as sortColumn, 
+    sort_deriction as sortDeriction, sort_column_list as sortColumnList, hide_sort as hideSort,
+    select_sql as selectSql, page_size as pageSize
+  </sql>
+
+  <select id="selectInfoPlusByTableName" resultClass="ReportInfoPlus" parameterClass="string" >
+    select
+    <include refid="REPORT_INFO_PLUS.Base_Column_List" />
+    from report_info_plus t where t.table_name = #value#
+  </select>
+
+</sqlMap>

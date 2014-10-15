@@ -1,0 +1,36 @@
+#set($layout = "login/layout.vm") ##选择布局页面
+#set($page_title="验证页面")
+#set($isEmailFieldError = $fieldErrors.get("emailLoginVo.email") && $fieldErrors.get("emailLoginVo.email").size()>0)
+#set($isPasswordFieldError = $fieldErrors.get("emailLoginVo.password") && $fieldErrors.get("emailLoginVo.password").size()>0)
+	<link href="$myres.getUrl("url.style")/bopsstyle/css/login.css" rel="stylesheet" type="text/css" />
+    	<form action="$myres.getUrl("url.bops")/login/login_info.htm" method="post">
+    	<input type="hidden" name="done" value="$!done">
+    	<div class="login">
+			<div>
+        	<p style=" margin-top:30px; margin-bottom:20px;">
+				<em width="62" class="col">您没有该权限</em>
+            </p>
+            <p class="p2">
+                <input type="submit" value="返回"  />
+            </p><input id="yzm" type="hidden"  value="$myres.getUrl("url.bops")/checkCode.htm?clientSessionId=$!request.getSession(true).getId()&t="/>
+    	</div>
+			</div>
+			 <div class="s-f"></div>
+    	</form>
+<script>
+function changcodeImg(){
+                	var checkcode = $("#checkcodeImg");
+                	var yzm = $("#yzm").val();
+                	var t=new Date().getTime();
+                	checkcode[0].src=yzm+t;
+                }
+jQuery(function(){
+	$("#textEmal").bind("click",function(){
+	$("#erroracount").height(0).css({overflow:"hidden",border:"none"});
+	})
+	$("#textPsw").bind("click",function(){
+	$("#errorpwd").height(0).css({overflow:"hidden",border:"none"});
+	})
+})
+				
+</script>

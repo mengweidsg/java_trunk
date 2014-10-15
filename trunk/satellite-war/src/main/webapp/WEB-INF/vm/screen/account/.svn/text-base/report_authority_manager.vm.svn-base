@@ -1,0 +1,127 @@
+#set($layout = "layout.vm") 
+#set($menuInfo.reportName="用户管理")
+#parse("VM_global_library.vm")
+
+<div id="content-main">
+    <form name="managerForm" method="post" action="edit_user_report_authority.htm" id="managerForm">
+        <div class="inner">
+            <div class="i-t clearfix">
+                <span class="L f14b">用户管理 > 报表权限设置</span>
+            </div>
+            <div class="i-m">
+               <div class="line"></div>
+               <div class="reportForms">
+					#if($menuModelMap && $menuModelMap.size() > 0)
+						#foreach($key in $menuModelMap.keySet())
+							#set($first=$menuModelMap.get($key))
+							#if(${first.menuLevel} == 1 && ${first.children.size()} > 0)
+							<div class="rf-item">
+                            	<input type="checkbox" name="chkAll" id="chkAll"  /><span class="f14b">$!{first.name}</span>
+								#if(${first.children} && ${first.children.size()} > 0)
+    								#foreach($secondId in ${first.children})
+										#set($second=$menuModelMap.get($secondId))
+                                    	<div class="second">
+                                        	<input type="checkbox" name="second" id="second" /><span class="fB">$!{second.name}</span>
+											#if(${second.children} && ${second.children.size()} > 0)
+                                        	<div class="third">
+												#foreach($thirdId in ${second.children})
+													#set($third=$menuModelMap.get($thirdId))
+													<input type="checkbox" name="selMenuList" value="$!{third.id}" #if($!{third.needSelect}=="1")checked="checked"#end /><span>$!{third.name}</span>
+												#end
+                                            </div>
+											#end
+                                        </div>
+    								#end
+								#end
+                            </div>
+							#end
+						#end
+					#end
+               </div>
+            </div>
+            <div class="i-b">
+				<br/>
+				<input type="button" id="btnConfirm" value="确定" class="btn-gray71x26 mar-r5" />
+                <input type="button" id="btnCancel" value="取消" class="btn-gray71x26" />
+            </div>
+        </div>
+        <input type="hidden" id="query.id" name="query.id" value="$!{query.id}" />
+        <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+    </form>
+</div>
+
+<form method="post" action="query_user_list.htm" id="backForm" name="backForm" >
+    <input type="hidden" id="menuRootId" name="menuRootId" value="9" />
+</form>
+<script >
+$(document).ready(function(){
+    // 确定按钮事件
+    $("#btnConfirm").bind({
+        click:function(){
+            $("#managerForm").submit();
+        }
+    });
+    // 取消按钮事件
+    $("#btnCancel").bind({
+        click:function(){
+            $("#backForm").submit();
+        }
+    });
+});
+
+//checkbox
+$(function(){
+	$(".rf-item input[name=chkAll]").bind("click",function(){
+	   if($(this).attr("checked")){
+			$(this).parent().find("input").attr("checked","checked")
+		   }
+	  else{
+		  $(this).parent().find("input").removeAttr("checked")
+		  }	
+	})
+	
+	$(".rf-item input[name=second]").bind("click",function(){
+	   if($(this).attr("checked")){
+			$(this).parent().find("input").attr("checked","checked")
+			if($(this).parent().siblings(".second").children("input").attr("checked")){
+				$(this).parent().siblings("input").attr("checked","checked")
+				}else{
+					$(this).parent().siblings("input").removeAttr("checked")
+					}
+		   }
+	  else{
+		  $(this).parent().find("input").removeAttr("checked").end().parent().parent().find("input[name=chkAll]").removeAttr("checked")
+		  }	
+	})
+	
+	$(".rf-item input[name=selMenuList]").bind("click",function(){					  
+				if(!$(this).attr("checked")){
+					$(this).parent().parent().find("input[name=second]").removeAttr("checked").parent().parent().find("input[name=chkAll]").removeAttr("checked")
+					}										  
+				else{
+					var _issiblingscheck = true;
+					var _isallcheck = true;
+					$(this).siblings("input").each(function(i){
+															if(!$(this).attr("checked")){
+															_issiblingscheck = false;	
+															return false;
+															}
+															})
+					if(_issiblingscheck){
+						$(this).parent().parent().find("input[name=second]").attr("checked","checked")
+						}
+					$(this).parent().parent().parent().find("input[name=second]").each(function(i){
+															if(!$(this).attr("checked")){
+															_isallcheck = false;	
+															return false;
+															}
+															})
+					if(_isallcheck){
+						$(this).parent().parent().parent().find("input[name=chkAll]").attr("checked","checked")
+						}	
+						
+					} 							  
+		   
+	})
+})
+</script>

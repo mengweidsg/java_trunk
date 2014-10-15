@@ -1,0 +1,17 @@
+#set($layout = "order/layout.vm") ##选择布局页面
+<div class="main clearfix">
+	<div class="error-inc">
+    		<div class="error-info">
+            <span class="error-title">页面出错啦！</span>
+            <span>可能的原因是：</span>
+            	<p class="error-text">
+                ·你要查找的页面已经被移走或删除了<br />
+                ·在地址栏中键入错误<br />
+                ·服务器忙<br />
+                ·订单状态已变更
+                </p>
+<span class="block mar-tb20">建议您返回刷新后重试</span>
+            </div>
+    </div>
+</div>
+#parse("layout/order/bottom.vm")
